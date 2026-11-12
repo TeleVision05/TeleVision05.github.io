@@ -100,7 +100,7 @@ export class IkView {
       x: this.target.x + (this.goal.x - this.target.x) * k,
       y: this.target.y + (this.goal.y - this.target.y) * k,
     };
-    const res = solve(this.target, this.joints);
+    const res = solve(this.target);
     this.joints = res.joints;
     this.trail.push({ ...this.joints[3] });
     if (this.trail.length > 70) this.trail.shift();
