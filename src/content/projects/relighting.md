@@ -6,7 +6,7 @@ status: 'experimental'
 year: 2026
 stack: ['JavaScript', 'WebGL2', 'GLSL', 'Python', 'NumPy']
 repo: 'https://github.com/TeleVision05/Relighting'
-repoPrivate: true
+repoPrivate: false
 live: ''
 play: ''
 featured: false
