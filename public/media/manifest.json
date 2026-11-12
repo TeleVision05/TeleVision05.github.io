@@ -1,0 +1,167 @@
+{
+  "apex-turismo": {
+    "videos": [
+      {
+        "src": "/media/apex-turismo/gameplay.mp4",
+        "poster": "/media/apex-turismo/gameplay.jpg",
+        "caption": "Driving the opening straight and first sweeping corners of the Tsukuba circuit in a road car, with the minimap, speed and gear readout on screen.",
+        "seconds": 14
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/apex-turismo/still-corner.jpg",
+        "alt": "In-game view behind a white road car approaching a left-hand corner with red and white kerbs."
+      },
+      {
+        "src": "/media/apex-turismo/still-sweeper.jpg",
+        "alt": "Chase camera on a white car in a long sweeping bend with trees and a clubhouse in the distance."
+      },
+      {
+        "src": "/media/apex-turismo/still-title.jpg",
+        "alt": "Apex Turismo title screen with the red emblem and the tagline The Real Driving Simulator."
+      },
+      {
+        "src": "/media/apex-turismo/track-spa.jpg",
+        "alt": "Generated track map of the Circuit de Spa-Francorchamps with corner names and an elevation profile."
+      },
+      {
+        "src": "/media/apex-turismo/track-suzuka.jpg",
+        "alt": "Generated track map of Suzuka Circuit with corner names and an elevation profile."
+      }
+    ]
+  },
+  "infinidrive": {
+    "videos": [
+      {
+        "src": "/media/infinidrive/gameplay.mp4",
+        "poster": "/media/infinidrive/gameplay.jpg",
+        "caption": "Driving a car along an endlessly generated road through rolling terrain, trees and blocky buildings, with a live minimap and speed readout.",
+        "seconds": 14
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/infinidrive/still-road.jpg",
+        "alt": "Third-person view of a car on a two-lane road with double yellow centre line heading toward distant hills."
+      },
+      {
+        "src": "/media/infinidrive/still-hills.jpg",
+        "alt": "Car on a curving road climbing a grassy hill, speed and gear shown bottom left and a circular minimap bottom right."
+      }
+    ]
+  },
+  "lingbot": {
+    "videos": [
+      {
+        "src": "/media/lingbot/orbit.mp4",
+        "poster": "/media/lingbot/orbit.jpg",
+        "caption": "Orbiting camera around a 3D point-cloud reconstruction of a lab produced from video frames.",
+        "seconds": 6
+      }
+    ],
+    "stills": []
+  },
+  "ball-tracker": {
+    "videos": [
+      {
+        "src": "/media/ball-tracker/synthetic-delivery-slowmo.mp4",
+        "poster": "/media/ball-tracker/synthetic-delivery-slowmo.jpg",
+        "caption": "Slow-motion replay of a synthetic cricket delivery: the tracked red ball with its yellow trajectory trail flying toward the stumps.",
+        "seconds": 6
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/ball-tracker/pitch-map.jpg",
+        "alt": "Pitch map for a synthetic delivery showing the bounce point as a red cross, with 132.8 km/h release speed in the title."
+      }
+    ]
+  },
+  "cricketvr": {
+    "videos": [],
+    "stills": [
+      {
+        "src": "/media/cricketvr/clubhouse-view.jpg",
+        "alt": "Virtual cricket club ground with a red-roofed clubhouse and fielders in blue."
+      },
+      {
+        "src": "/media/cricketvr/scoreboard.jpg",
+        "alt": "Village scoreboard in front of a clubhouse showing total, wickets and overs, with picket fence and trees."
+      },
+      {
+        "src": "/media/cricketvr/crease-and-stumps.jpg",
+        "alt": "Close view of the stumps and painted crease lines on a dirt cricket pitch."
+      },
+      {
+        "src": "/media/cricketvr/pitch-top-down.jpg",
+        "alt": "Top-down view of a cricket pitch with stumps at both ends on short green grass."
+      }
+    ]
+  },
+  "rama": {
+    "videos": [],
+    "stills": [
+      {
+        "src": "/media/rama/village.jpg",
+        "alt": "Thatched mud-brick huts in a village clearing surrounded by jungle trees."
+      },
+      {
+        "src": "/media/rama/waterfall.jpg",
+        "alt": "River rapids running through a palm-lined gorge in sunlight."
+      },
+      {
+        "src": "/media/rama/village-hud.jpg",
+        "alt": "Village well with a woman carrying a clay pot, thatched huts behind and a quest hud."
+      },
+      {
+        "src": "/media/rama/the-falls.jpg",
+        "alt": "Waterfall cascading over a stone weir among palms with quest notifications at top right."
+      },
+      {
+        "src": "/media/rama/dawn-river.jpg",
+        "alt": "Misty river at dawn with palm trees lining the bank."
+      },
+      {
+        "src": "/media/rama/forest.jpg",
+        "alt": "Dense sal forest floor with large tree trunks and dappled light."
+      }
+    ]
+  },
+  "relighting": {
+    "videos": [],
+    "stills": [
+      {
+        "src": "/media/relighting/viewer-split.jpg",
+        "alt": "Split-view WebGL relighting viewer showing the baked appearance of a 3D Gaussian splat lab instrument on the left and the relit result on the right, with the control panel at right."
+      }
+    ]
+  },
+  "local-video": {
+    "videos": [
+      {
+        "src": "/media/local-video/big-bang.mp4",
+        "poster": "/media/local-video/big-bang.jpg",
+        "caption": "AI-generated clip of a point of light expanding into a swirling, lightning-like explosion, with generated audio.",
+        "seconds": 5
+      }
+    ],
+    "stills": []
+  },
+  "fielder-intercept": {
+    "videos": [
+      {
+        "src": "/media/fielder-intercept/intercept-sim.mp4",
+        "poster": "/media/fielder-intercept/intercept-sim.jpg",
+        "caption": "Top-down simulation of a ball leaving the bat while the nearest fielders compute intercept points and run to catch it across three field settings.",
+        "seconds": 15
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/fielder-intercept/still-caught.jpg",
+        "alt": "Top-down matplotlib field plot with the boundary circle, nine fielders in blue, a red ball and field-set buttons."
+      }
+    ]
+  }
+}
