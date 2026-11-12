@@ -1,0 +1,192 @@
+@import 'tailwindcss';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans/400-italic.css';
+@import '@fontsource/ibm-plex-sans-condensed/500.css';
+@import '@fontsource/ibm-plex-sans-condensed/600.css';
+
+/* Tokens. Accent colors follow the robot-axis convention: X red, Y green, Z blue. */
+:root {
+  --paper: #f1f3f5;
+  --panel: #e6eaee;
+  --rule: #cdd3da;
+  --ink: #15181d;
+  --graphite: #4e5663;
+  --x: #c0352b;
+  --y: #1f7a45;
+  --z: #2b55c9;
+  --focus: #2b55c9;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --display: 'IBM Plex Sans Condensed', 'IBM Plex Sans', system-ui, sans-serif;
+  --measure: 66ch;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max: 76rem;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #13171d;
+    --panel: #1b2028;
+    --rule: #2c333d;
+    --ink: #e8ebef;
+    --graphite: #a3abb7;
+    --x: #f0675c;
+    --y: #4fc27f;
+    --z: #7b9cf6;
+    --focus: #9db6ff;
+  }
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+  font-feature-settings: 'tnum' 0;
+}
+
+::selection {
+  background: var(--z);
+  color: var(--paper);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.display {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
+.muted {
+  color: var(--graphite);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons: primary is the Z (blue) axis, secondary is an outline. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1.5px solid var(--ink);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--z);
+  border-color: var(--z);
+}
+.btn-ghost:hover {
+  border-color: var(--z);
+  color: var(--z);
+}
+
+.axis-x {
+  --axis: var(--x);
+}
+.axis-y {
+  --axis: var(--y);
+}
+.axis-z {
+  --axis: var(--z);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+}
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  background: var(--paper);
+  padding: 0.5rem 0.75rem;
+}
+
+/* Long-form project text */
+.prose {
+  max-width: var(--measure);
+}
+.prose h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin: 2.5rem 0 0.75rem;
+  line-height: 1.1;
+}
+.prose p,
+.prose li {
+  font-size: 1.0625rem;
+}
+.prose ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+.prose ol {
+  list-style: decimal;
+  padding-left: 1.4rem;
+}
+.prose a {
+  color: var(--z);
+}
+.prose li {
+  margin: 0.4rem 0;
+}
+.prose li::marker {
+  color: var(--axis, var(--graphite));
+}
+.prose code {
+  font-size: 0.92em;
+  background: var(--panel);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,390 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Base from '../layouts/Base.astro';
+import IkLeg from '../components/IkLeg.astro';
+import ProjectRow from '../components/ProjectRow.astro';
+import { profile, categories, categoryOrder, experience, education } from '../data/site';
+
+const all = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || b.data.year - a.data.year,
+);
+const groups = categoryOrder.map((cat) => ({
+  cat,
+  meta: categories[cat],
+  featured: all.filter((p) => p.data.category === cat && p.data.featured && p.id !== 'picrawler'),
+  rest: all.filter((p) => p.data.category === cat && !p.data.featured),
+}));
+
+const crabPlan = [
+  {
+    step: 'Bring-up',
+    detail: 'Pi 5 online, servo and camera checks, a clean repo.',
+    state: 'next',
+  },
+  {
+    step: 'My own walking code',
+    detail: 'Leg inverse kinematics, body pose and creep, trot and wave gaits.',
+    state: 'planned',
+  },
+  {
+    step: 'ROS 2',
+    detail: 'Servo, gait, camera and sonar nodes with a URDF model in RViz.',
+    state: 'planned',
+  },
+  {
+    step: 'Learned gait',
+    detail: 'A MuJoCo or Isaac Lab twin, an RL-trained gait, deployed back to the Pi.',
+    state: 'planned',
+  },
+  {
+    step: 'VR teleoperation',
+    detail: 'Steer the body pose from a Meta Quest with the camera feed in the headset.',
+    state: 'planned',
+  },
+];
+---
+
+<Base>
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="intro">
+      <h1 id="hero-title" class="display" data-split>
+        Tarun Vadapalli
+      </h1>
+      <p class="lede" data-rise>
+        Robotics engineering student at UC Riverside. I build software that sees, moves and
+        simulates. Right now I'm teaching a four-legged crab robot to walk.
+      </p>
+      <div class="ctas" data-rise>
+        <a class="btn btn-primary" href="#projects">
+          See my projects
+        </a>
+        <a class="btn btn-ghost" href={profile.github} rel="me">
+          <Icon name="simple-icons:github" aria-hidden="true" />
+          GitHub profile
+        </a>
+      </div>
+    </div>
+    <div class="leg" data-rise>
+      <IkLeg />
+    </div>
+  </section>
+
+  <section id="now" class="now wrap" aria-labelledby="now-title">
+    <div class="now-head">
+      <h2 id="now-title" class="display">
+        Now building
+      </h2>
+      <p>
+        A Raspberry Pi 5 crab robot with twelve servos, a camera and an ultrasonic sensor. I'm
+        replacing the kit's walking code with my own, one layer at a time.{' '}
+        <a href="/projects/picrawler/">Read the plan</a>
+      </p>
+    </div>
+    <ol class="plan">
+      {crabPlan.map((s) => (
+        <li data-state={s.state}>
+          <span class="step">{s.step}</span>
+          <span class="muted">{s.detail}</span>
+          <span class="state">{s.state === 'next' ? 'Up next' : 'Planned'}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="projects" class="projects wrap" aria-labelledby="projects-title">
+    <h2 id="projects-title" class="display">
+      Projects
+    </h2>
+    <p class="legend muted">
+      Colors follow the robot-axis convention:{' '}
+      <span class="key axis-z">blue for robotics and vision</span>,{' '}
+      <span class="key axis-x">red for simulation and games</span>,{' '}
+      <span class="key axis-y">green for apps and tools</span>.
+    </p>
+    {groups.map((g) => (
+      <section class:list={['group', `axis-${g.meta.axis}`]} aria-labelledby={`g-${g.cat}`}>
+        <header class="group-head">
+          <h3 id={`g-${g.cat}`} class="display">
+            {g.meta.name}
+          </h3>
+          <p class="muted">{g.meta.blurb}</p>
+        </header>
+        {g.featured.map((p) => (
+          <ProjectRow project={p} size="feature" />
+        ))}
+        <div class="compact-grid">
+          {g.rest.map((p) => (
+            <ProjectRow project={p} size="compact" />
+          ))}
+        </div>
+      </section>
+    ))}
+  </section>
+
+  <section id="experience" class="experience wrap" aria-labelledby="exp-title">
+    <h2 id="exp-title" class="display">
+      Experience
+    </h2>
+    <ol class="timeline">
+      {experience.map((e) => (
+        <li>
+          <p class="when muted num">{e.when}</p>
+          <div>
+            <h3>
+              {e.role}, <span class="org">{e.org}</span>
+            </h3>
+            <p class="muted">{e.detail}</p>
+            <ul>
+              {e.points.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="edu">
+      <span class="muted num">{education.when}</span>
+      <span>
+        <strong>{education.degree}</strong>, {education.school}
+      </span>
+    </p>
+  </section>
+</Base>
+
+<script>
+  import { gsap } from 'gsap';
+  import { reducedMotion, splitWords } from '../scripts/motion';
+
+  // One orchestrated moment: the name rises word by word, then the copy and the leg settle in.
+  const title = document.querySelector<HTMLElement>('[data-split]');
+  if (title && !reducedMotion()) {
+    const words = splitWords(title);
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.from(words, { yPercent: 110, duration: 0.9, stagger: 0.08 })
+      .from('[data-rise]', { y: 18, opacity: 0, duration: 0.7, stagger: 0.1 }, '-=0.45')
+      .eventCallback('onComplete', () => gsap.set('[data-rise]', { clearProps: 'all' }));
+  }
+
+  // Featured rows preview their recording on hover or keyboard focus.
+  document.querySelectorAll<HTMLElement>('.row.feature').forEach((row) => {
+    const video = row.querySelector<HTMLVideoElement>('[data-hover-video]');
+    if (!video || reducedMotion()) return;
+    const play = () => {
+      video.play().then(
+        () => video.classList.add('on'),
+        () => undefined,
+      );
+    };
+    const stop = () => {
+      video.classList.remove('on');
+      video.pause();
+    };
+    row.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && play());
+    row.addEventListener('pointerleave', stop);
+    row.addEventListener('focusin', play);
+    row.addEventListener('focusout', stop);
+  });
+</script>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+    padding-block: clamp(3rem, 8vw, 6.5rem) clamp(3rem, 6vw, 5rem);
+  }
+  h1 {
+    font-size: clamp(3.4rem, 9.5vw, 7.8rem);
+    margin: 0 0 1.5rem;
+  }
+  h1 :global(.word-mask) {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.06em;
+  }
+  h1 :global(.word) {
+    display: inline-block;
+  }
+  .lede {
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    max-width: 34ch;
+    margin: 0 0 2rem;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .ctas :global(svg) {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  section > h2,
+  .now-head h2 {
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    margin: 0 0 1rem;
+  }
+
+  .now {
+    position: relative;
+    padding-block: 3rem;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+  }
+  .now::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--gutter);
+    right: var(--gutter);
+    border-top: 1.5px solid var(--ink);
+  }
+  .now-head p {
+    max-width: 42ch;
+  }
+  .now-head a {
+    color: var(--z);
+    font-weight: 500;
+  }
+  .plan {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+  }
+  .plan li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    grid-template-areas: 'n title state' 'n detail detail';
+    column-gap: 0.75rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .plan li::before {
+    content: counter(step);
+    grid-area: n;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--graphite);
+    font-variant-numeric: tabular-nums;
+  }
+  .plan .step {
+    grid-area: title;
+    font-weight: 600;
+  }
+  .plan .muted {
+    grid-area: detail;
+    font-size: 0.95rem;
+  }
+  .plan .state {
+    grid-area: state;
+    font-size: 0.8rem;
+    color: var(--graphite);
+  }
+  .plan li[data-state='next']::before,
+  .plan li[data-state='next'] .state {
+    color: var(--z);
+  }
+
+  .projects {
+    padding-top: 4rem;
+  }
+  .legend {
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .key {
+    color: var(--axis);
+    font-weight: 500;
+  }
+  .group {
+    margin-top: 3.5rem;
+  }
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid var(--axis);
+  }
+  .group-head h3 {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+    margin: 0;
+  }
+  .group-head p {
+    margin: 0;
+    max-width: 52ch;
+  }
+  .compact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    column-gap: 2.5rem;
+  }
+
+  .experience {
+    padding-top: 5rem;
+  }
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .timeline > li {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .when {
+    margin: 0.2rem 0 0;
+    font-size: 0.95rem;
+  }
+  .timeline h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+  }
+  .org {
+    font-weight: 400;
+  }
+  .timeline p {
+    margin: 0.15rem 0 0.5rem;
+  }
+  .timeline ul {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.1rem;
+    max-width: 66ch;
+  }
+  .edu {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  @media (max-width: 860px) {
+    .hero,
+    .now {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .timeline > li,
+    .edu {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

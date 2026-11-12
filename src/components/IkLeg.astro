@@ -1,0 +1,116 @@
+---
+// Interactive inverse-kinematics leg for the hero. The readout is decorative; the
+// figure caption carries the meaning for assistive technology.
+---
+
+<figure class="ik" data-ik>
+  <div class="stage">
+    <canvas aria-hidden="true"></canvas>
+    <p class="nojs muted">Turn on JavaScript to move the leg.</p>
+  </div>
+  <div class="readout num" aria-hidden="true">
+    <div>
+      <span class="k">hip</span>
+      <span data-a="0">0.0°</span>
+    </div>
+    <div>
+      <span class="k">knee</span>
+      <span data-a="1">0.0°</span>
+    </div>
+    <div>
+      <span class="k">ankle</span>
+      <span data-a="2">0.0°</span>
+    </div>
+    <div>
+      <span class="k">foot</span>
+      <span data-xy>0, 0 mm</span>
+    </div>
+    <div class="state" data-state>
+      tracking
+    </div>
+  </div>
+  <figcaption class="muted">
+    A three-joint robot leg solving its own joint angles in real time with FABRIK inverse
+    kinematics. Move your pointer or drag on the plot to place the foot. It's the same math my crab
+    robot will walk with.
+  </figcaption>
+</figure>
+
+<script>
+  import { IkView } from '../scripts/ik-view';
+
+  const fig = document.querySelector<HTMLElement>('[data-ik]');
+  const canvas = fig?.querySelector('canvas');
+  if (fig && canvas?.getContext('2d')) {
+    fig.classList.add('js');
+    new IkView(canvas, {
+      angles: [...fig.querySelectorAll<HTMLElement>('[data-a]')],
+      xy: fig.querySelector<HTMLElement>('[data-xy]')!,
+      state: fig.querySelector<HTMLElement>('[data-state]')!,
+    });
+  }
+</script>
+
+<style>
+  .ik {
+    margin: 0;
+  }
+  .stage {
+    position: relative;
+    aspect-ratio: 5 / 4;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+  }
+  .nojs {
+    position: absolute;
+    inset: auto 1rem 1rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .ik:global(.js) .nojs {
+    display: none;
+  }
+  .readout {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-content: start;
+    gap: 0.25rem 1.5rem;
+    margin-top: 0.85rem;
+    font-size: 0.9rem;
+  }
+  .readout div {
+    display: flex;
+    flex-direction: column;
+  }
+  .k {
+    color: var(--graphite);
+    font-size: 0.8rem;
+  }
+  .state {
+    align-self: end;
+    color: var(--z);
+    font-weight: 500;
+  }
+  .state:global(.warn) {
+    color: var(--x);
+  }
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    max-width: 52ch;
+  }
+  @media (max-width: 520px) {
+    .readout {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+</style>

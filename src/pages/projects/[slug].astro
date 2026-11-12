@@ -1,0 +1,273 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Base from '../../layouts/Base.astro';
+import Embed from '../../components/Embed.astro';
+import { mediaFor } from '../../lib/media';
+import { categories, categoryOrder } from '../../data/site';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('projects')).sort(
+    (a, b) =>
+      categoryOrder.indexOf(a.data.category) - categoryOrder.indexOf(b.data.category) ||
+      a.data.order - b.data.order,
+  );
+  return all.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, prev: all[i - 1], next: all[i + 1] },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  prev?: CollectionEntry<'projects'>;
+  next?: CollectionEntry<'projects'>;
+}
+
+const { project, prev, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const media = mediaFor(project.id);
+const cat = categories[d.category];
+const poster = media.videos[0]?.poster ?? media.stills[0]?.src;
+const showRepo = d.repo && !d.repoPrivate;
+---
+
+<Base title={d.title} description={d.summary} image={poster}>
+  <article class:list={['wrap', `axis-${cat.axis}`]}>
+    <nav class="crumb" aria-label="Breadcrumb">
+      <a href="/#projects">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span class="muted">{cat.name}</span>
+    </nav>
+
+    <header class="head">
+      <h1 class="display">{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+      <dl class="facts">
+        <div>
+          <dt>Status</dt>
+          <dd class="status" data-status={d.status}>
+            {d.status}
+          </dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd class="num">{d.year}</dd>
+        </div>
+        <div>
+          <dt>Built with</dt>
+          <dd>{d.stack.join(', ')}</dd>
+        </div>
+      </dl>
+      <div class="actions">
+        {d.play && (
+          <a class="btn btn-primary" href="#demo">
+            <Icon name="solar:gamepad-linear" aria-hidden="true" /> Play it here
+          </a>
+        )}
+        {d.live && (
+          <a class="btn btn-primary" href="#demo">
+            <Icon name="solar:global-linear" aria-hidden="true" /> Try the live app
+          </a>
+        )}
+        {showRepo && (
+          <a class="btn btn-ghost" href={d.repo}>
+            <Icon name="simple-icons:github" aria-hidden="true" /> View source
+          </a>
+        )}
+        {d.repoPrivate && (
+          <span class="private muted">
+            <Icon name="solar:lock-keyhole-linear" aria-hidden="true" /> Source is private. Ask me
+            for a walkthrough.
+          </span>
+        )}
+      </div>
+    </header>
+
+    {(d.play || d.live) && (
+      <section id="demo" class="demo" aria-label="Interactive demo">
+        <Embed
+          src={d.play || d.live}
+          title={d.title}
+          kind={d.play ? 'play' : 'live'}
+          poster={poster}
+        />
+      </section>
+    )}
+
+    {media.videos.length > 0 && (
+      <section class="videos" aria-label="Recordings">
+        {media.videos.map((v) => (
+          <figure>
+            <video src={v.src} poster={v.poster} controls muted playsinline preload="metadata" />
+            {v.caption && <figcaption class="muted">{v.caption}</figcaption>}
+          </figure>
+        ))}
+      </section>
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {media.stills.length > 0 && (
+      <section class="gallery" aria-label="Screenshots">
+        {media.stills.map((s) => (
+          <figure>
+            <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </section>
+    )}
+
+    <nav class="pager" aria-label="More projects">
+      {prev ? (
+        <a href={`/projects/${prev.id}/`}>
+          <span class="muted">Previous</span>
+          {prev.data.title}
+        </a>
+      ) : (
+        <span />
+      )}
+      {next && (
+        <a class="next" href={`/projects/${next.id}/`}>
+          <span class="muted">Next</span>
+          {next.data.title}
+        </a>
+      )}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  article {
+    padding-top: 2rem;
+  }
+  .crumb {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .crumb a {
+    color: var(--graphite);
+  }
+  .head {
+    padding-block: 1.5rem 2.5rem;
+    border-bottom: 3px solid var(--axis);
+    margin-bottom: 2.5rem;
+  }
+  h1 {
+    font-size: clamp(2.8rem, 8vw, 5.8rem);
+    margin: 0 0 1rem;
+  }
+  .summary {
+    font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+    max-width: 50ch;
+    margin: 0 0 1.75rem;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    margin: 0 0 1.75rem;
+  }
+  dt {
+    font-size: 0.8rem;
+    color: var(--graphite);
+  }
+  dd {
+    margin: 0;
+    font-weight: 500;
+  }
+  .status::before {
+    content: '';
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    background: var(--graphite);
+  }
+  .status[data-status='working']::before {
+    background: var(--y);
+  }
+  .status[data-status='in progress']::before {
+    background: var(--z);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .actions :global(svg) {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .private {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+  }
+  .demo,
+  .videos {
+    margin-bottom: 2.5rem;
+  }
+  .videos {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  }
+  figure {
+    margin: 0;
+  }
+  video,
+  .gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    background: var(--panel);
+  }
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .gallery {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    margin-top: 3rem;
+  }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    min-height: 44px;
+  }
+  .pager a:hover {
+    color: var(--axis);
+  }
+  .pager .muted {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 0.85rem;
+  }
+  .next {
+    text-align: right;
+  }
+</style>

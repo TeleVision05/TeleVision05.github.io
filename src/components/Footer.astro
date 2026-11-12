@@ -1,0 +1,100 @@
+---
+import { Icon } from 'astro-icon/components';
+import { profile } from '../data/site';
+---
+
+<footer class="site-footer" id="contact">
+  <div class="wrap grid">
+    <div>
+      <h2 class="display">Let's talk robots.</h2>
+      <p class="muted">
+        I'm looking for robotics, autonomy and simulation internships for summer 2027. The fastest
+        way to reach me is email.
+      </p>
+      <a class="btn btn-primary" href={`mailto:${profile.email}`}>
+        <Icon name="solar:letter-linear" aria-hidden="true" />
+        Email me
+      </a>
+    </div>
+    <ul class="links">
+      <li>
+        <a href={profile.github} rel="me">
+          <Icon name="simple-icons:github" aria-hidden="true" /> GitHub
+        </a>
+      </li>
+      <li>
+        <a href={profile.linkedin} rel="me">
+          <Icon name="simple-icons:linkedin" aria-hidden="true" /> LinkedIn
+        </a>
+      </li>
+      <li>
+        <a href={`mailto:${profile.email}`}>
+          <Icon name="solar:letter-linear" aria-hidden="true" />
+          {profile.email}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="wrap fine muted">
+    <span>Built with Astro. Hosted on GitHub Pages.</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 6rem;
+    border-top: 1px solid var(--rule);
+    padding-block: 4rem 2rem;
+    background: var(--panel);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  h2 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    margin: 0 0 1rem;
+  }
+  p {
+    max-width: 44ch;
+    margin: 0 0 1.5rem;
+  }
+  .btn :global(svg) {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .links a:hover {
+    color: var(--z);
+  }
+  .links :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+  }
+  .fine {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+  }
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
