@@ -45,7 +45,8 @@ const note =
       const iframe = document.createElement('iframe');
       iframe.src = fig.dataset.src!;
       iframe.title = fig.dataset.title!;
-      iframe.allow = 'fullscreen; gamepad; autoplay';
+      // camera lets a live demo such as the Lumina webcam app read the viewer's camera.
+      iframe.allow = 'fullscreen; gamepad; autoplay; camera';
       iframe.setAttribute('allowfullscreen', '');
       frame.replaceChildren(iframe);
       iframe.focus();
