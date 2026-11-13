@@ -26,12 +26,13 @@ RAMA is a vertical slice, a small finished piece of a larger game, set in ancien
 - The heightfield, a grid of ground heights, is baked on first launch in about 10 seconds and cached on disk.
 - Combat has a hold-to-draw bow that gets stronger the longer you hold, a three-hit sword combo, a dodge roll you cannot be hit during, and a parry with a 0.35 second window. Five celestial arrows, the Divya Astras, are unlocked through the story.
 - A 13-suite test gate drives the game and checks loading, terrain, combat, quests, saves, memory leaks, frame rate and the UI. It runs quietly: 9 suites run headless, meaning with no renderer, and 4 render off screen, so no window opens, nothing takes focus and no sound plays. Every suite runs at a fixed 60 frames per second, so a busy machine slows a run down but does not change its result.
-- As of 2026-11-13, the most recent recorded full pass is from 2026-11-05, when all 13 suites passed.
+- As of 2026-11-13, the most recent recorded full pass is from 2026-11-05, when 12 test suites and a UI check passed. That pass used an older version of the gate and came before the character models were added, so it does not cover the current build.
 
 ## What's next
 
 - As of 2026-11-13, the repo has no recorded full run of the new quiet test runner yet. Under its off-screen renderer the GPU timing column reads 0.00 ms, which is a known gap.
 - The 3D vegetation has not been rendered and checked by eye.
-- Village draw calls are high, about 450 from characters alone, so characters need a distance level of detail, a cheaper mesh past a set range.
+- Village draw calls are high. As of 2026-11-13 the roadmap records about 900 in the village, about 450 of them from the 12 villagers and visible enemies. Those figures were taken on a heavily loaded machine, so they are rough. Characters need a distance level of detail, a cheaper mesh past a set range.
 - Remaining roadmap items are rendering and atmosphere, finishing characters and creatures, and more content.
+- As of 2026-11-13, the quiet test gate and the character models are on a branch that is not merged into main yet.
 - Building collision uses axis-aligned boxes, so a rotated hut blocks more ground than it occupies.

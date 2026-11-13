@@ -24,13 +24,14 @@ A standard 3D Gaussian Splatting file (a scene stored as many small 3D blobs, or
 - Re-shading uses a Cook-Torrance BRDF with a GGX distribution, with up to 8 directional, point or spot lights.
 - Shadows are ray-marched through a per-model density volume built from the splats.
 - The viewer is a WebGL2 page with a split view of the baked reference against the relit result, six G-buffer debug modes (views of one stored layer, such as albedo or normals), four lighting presets and a model picker. It is plain ES modules with no build step, and scenes load in a background worker with a progress bar.
-- A NumPy CPU renderer is the reference the viewer is checked against. It now reads rotations in the same order as the viewer, builds each splat's shape from all three scales, uses the viewer's orbit camera and composites in tiles instead of a per-pixel Python loop. On one sample scene at 800x600, a render went from 24.9 s (neutral) and 40.3 s (relit) to about 4.3 s each. The two runs used different cameras.
+- A NumPy CPU renderer is the reference the viewer is checked against. It now reads rotations in the same order as the viewer, builds each splat's shape from all three scales, uses the viewer's orbit camera and composites in tiles instead of a per-pixel Python loop.
 - Tests cover PLY parsing, the lighting split, the CPU renderer's geometry and both local servers. Browser tests load the real viewer in headless Chromium on synthetic scenes with known shapes and check normals, lighting and shadows by image statistics. Node unit tests cover the viewer's pure modules.
-- CI runs ruff, eslint, prettier, the Node tests, pytest on Python 3.10 and 3.12, and the browser tests on every pull request and push to main.
+- CI is set up to run ruff, eslint, prettier, the Node tests, pytest on Python 3.10 and 3.12, and the browser tests on every pull request and push to main. As of 2026-11-13, the CPU renderer changes, the browser tests and CI are on a draft pull request that is not merged into main. CI passed on that pull request.
 
 ## What's next
 
 - The CPU renderer still has one directional and one point light, no shadows and no normal smoothing, so its lit output cannot match the viewer yet.
 - Commit a CPU render and a viewer screenshot of the same scene from the same camera, side by side, to show the two agree on geometry.
 - Higher-order colour terms are ignored, which discards view-dependent signal that could help separate specular from diffuse.
+- Record before-and-after render times for the CPU renderer in the repo. As of 2026-11-13 none are committed.
 - The viewer is not published online yet. I run it locally.

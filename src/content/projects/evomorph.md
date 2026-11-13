@@ -19,7 +19,7 @@ EVOMORPH breeds simulated walking creatures. Each creature has a genome (a list 
 
 The research question comes from my brief: does evolving the body and the controller together give more robust and more varied walking than evolving only the controller for a fixed body? I do not assume the answer is yes.
 
-As of 2026-11-13, a quick single-seed run of the genetic algorithm (6000 simulations) evolved an eight-legged creature with two-segment legs and a metachronal gait (a wave that runs down the legs) at 2.24 Hz. It covered about 6.6 m in 10 s, and its fitness on held-out spawn seeds (1.028) was no worse than on the seeds it was selected on (1.021). For comparison, the best of 300 random creatures went 1.98 m in 10 s.
+As of 2026-11-13, a quick single-seed run of the genetic algorithm (6000 simulations) evolved an eight-legged creature with two-segment legs and a metachronal gait (a wave that runs down the legs) at 2.24 Hz. It covered about 6.6 m in 10 s, and its fitness on held-out spawn seeds (1.028) was no worse than on the seeds it was selected on (1.021). Distance alone does not show that evolution helped. In a sweep of 300 random creatures, the one with the best fitness score went 1.98 m, but the farthest one went 7.03 m, further than the evolved champion. It scored low because the score also rewards staying upright, going straight and saving energy.
 
 ## How it works
 
@@ -30,11 +30,11 @@ As of 2026-11-13, a quick single-seed run of the genetic algorithm (6000 simulat
 - **Terrain.** Besides flat ground there are slopes, uneven fields with low obstacles, friction changes and random mixes. Training and held-out test terrains are kept separate, so I can check whether a gait generalises.
 - **Experiment.** The comparison runs four conditions on equal simulation budgets: controller-only on a fixed quadruped, body-only with a fixed baseline controller, joint evolution with the GA, and joint evolution with MAP-Elites. It reports bootstrap intervals, Mann-Whitney tests and a computed verdict.
 - **Dashboard.** A Streamlit dashboard reads a run folder and shows six views: evolution progress, creature inspection, the MAP-Elites archive, statistics, side-by-side comparison and generation history. Every picture is a real genome rendered in MuJoCo.
-- **Checks.** CI runs ruff, a file and function size check and the fast pytest suite on every push. Results are bit-identical between runs, but only within one MuJoCo version.
+- **Checks.** CI runs ruff, a file and function size check and the fast pytest suite on every push. As of 2026-11-13 its first run on GitHub failed: 2 of 375 tests failed because a stored fitness value did not reproduce exactly on the Linux runner. It differed only in the last few digits, but results are not yet bit-identical across machines.
 
 ## What's next
 
-- As of 2026-11-13 the full comparison (5 seeds, 4 conditions, 1441 simulations per run) is running and has finished its first run of 20. I have no result for the research question yet.
+- As of 2026-11-13 the full comparison (5 seeds, 4 conditions, 1441 simulations per run) is running, with 20 runs in total. I have no result for the research question yet.
 - The 2-seed smoke test of that experiment cannot answer the question. Its computed verdict was "not shown", and most of its champions were worse than the hand-designed quadruped.
 - The evolved walkers skate. About 70% of the GA champion's foot load is delivered while its feet slide, and friction barely changes its distance. Fixing that needs a change to the physics or the score, which I have not made.
 - MAP-Elites kept behaviours apart but not bodies: 54 of its 62 elites in the quick run share one six-legged body plan.

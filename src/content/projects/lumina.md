@@ -35,8 +35,8 @@ As of 2026-11-13 the browser app runs, but the neural network inside it has rand
 
 ## What's next
 
-- Finish training and commit an evaluation. As of 2026-11-13 no evaluation result is committed. The plan is to report light-direction error in degrees and sphere shading error against three simple baselines, with 95% confidence intervals over HDRIs.
+- Commit an evaluation of the trained model. As of 2026-11-13 no evaluation result is committed. The plan is to report light-direction error in degrees and sphere shading error against three simple baselines, with 95% confidence intervals over HDRIs.
 - Swap the trained model in for the placeholder, then re-measure WebGPU against WebAssembly speed.
-- Merge the app and training branches into main and deploy the app to GitHub Pages. CI has not run on GitHub yet.
+- Merge the app and training branches into main and deploy the app to GitHub Pages. As of 2026-11-13, CI (automated checks on GitHub) has run once on main and passed.
 - Test on real phones and other browsers. So far everything ran in headless Chromium only.
 - Add camera tracking. Today the object does not stay put when the camera moves, and the camera's field of view is assumed.

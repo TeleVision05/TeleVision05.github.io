@@ -36,4 +36,4 @@ The walkthrough and stills below come from the dashboard's mock mode, which runs
 - Neither committed example is approved yet. Both are still waiting for my review, so there are no finished example videos on this page.
 - An independent AI critic scored the examples 5 and 6 out of 10. The biggest weakness was opening on a flat 2D diagram. I have a draft of the phone example with a 3D opening shot, but it is not reviewed yet.
 - The mock dashboard data shows 22 quality checks from an earlier version, not the current 34.
-- As of 2026-11-13, CI (automated checks on GitHub) has been added but has not run on a real runner. Only macOS on Apple Silicon is supported. Linux is untested for producing videos.
+- As of 2026-11-13, CI (automated checks on GitHub) has run once, on a pull request that is not merged yet. Its check job passed. Its Linux demo job had not finished. Only macOS on Apple Silicon is supported. Linux is untested for producing videos.
