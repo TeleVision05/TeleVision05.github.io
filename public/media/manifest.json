@@ -65,16 +65,16 @@
   "ball-tracker": {
     "videos": [
       {
-        "src": "/media/ball-tracker/synthetic-delivery-slowmo.mp4",
-        "poster": "/media/ball-tracker/synthetic-delivery-slowmo.jpg",
-        "caption": "Slow-motion replay of a synthetic cricket delivery: the tracked red ball with its yellow trajectory trail flying toward the stumps.",
-        "seconds": 6
+        "src": "/media/ball-tracker/balltracker-demo.mp4",
+        "poster": "/media/ball-tracker/balltracker-demo.jpg",
+        "caption": "A simulated 134 km/h delivery seen from behind the bowler in 4x slow motion, with ball detections in yellow, the fitted flight in blue and the fitted bounce as a red cross, then the estimates next to the simulator's truth.",
+        "seconds": 7
       }
     ],
     "stills": [
       {
-        "src": "/media/ball-tracker/pitch-map.jpg",
-        "alt": "Pitch map for a synthetic delivery showing the bounce point as a red cross, with 132.8 km/h release speed in the title."
+        "src": "/media/ball-tracker/balltracker-pitch-map.jpg",
+        "alt": "Pitch map of the batter's end with length bands from yorker to too short, showing the estimated bounce as a red cross at 4.92 m and the true bounce as a black circle at 5.48 m for a synthetic delivery."
       }
     ]
   },
@@ -100,40 +100,62 @@
     ]
   },
   "rama": {
-    "videos": [],
+    "videos": [
+      {
+        "src": "/media/rama/rama-gameplay.mp4",
+        "poster": "/media/rama/rama-gameplay.jpg",
+        "caption": "A 13 second cut from a scripted camera path through the game, rendered off screen without audio: the village from the river, the river and bridge, the waterfall, the village square with the bow, and a conversation with the elder.",
+        "seconds": 13
+      }
+    ],
     "stills": [
       {
-        "src": "/media/rama/village.jpg",
-        "alt": "Thatched mud-brick huts in a village clearing surrounded by jungle trees."
+        "src": "/media/rama/still-village.jpg",
+        "alt": "Thatched round huts in a village clearing beside the river, with palms, forest and mountains behind."
       },
       {
-        "src": "/media/rama/waterfall.jpg",
-        "alt": "River rapids running through a palm-lined gorge in sunlight."
+        "src": "/media/rama/still-river.jpg",
+        "alt": "A wooden rope-railed bridge crossing a green river toward a waterfall at the end of the valley."
       },
       {
-        "src": "/media/rama/village-hud.jpg",
-        "alt": "Village well with a woman carrying a clay pot, thatched huts behind and a quest hud."
+        "src": "/media/rama/still-bridge.jpg",
+        "alt": "Close view of the wooden bridge on posts over the river, with the waterfall in the distance."
       },
       {
-        "src": "/media/rama/the-falls.jpg",
-        "alt": "Waterfall cascading over a stone weir among palms with quest notifications at top right."
+        "src": "/media/rama/still-falls.jpg",
+        "alt": "The waterfall at dusk seen from above, falling over a stone weir into a misty pool among palms."
       },
       {
-        "src": "/media/rama/dawn-river.jpg",
-        "alt": "Misty river at dawn with palm trees lining the bank."
+        "src": "/media/rama/still-falls-pool.jpg",
+        "alt": "The waterfall seen from near the pool, with a leafy tree in the foreground and mountains behind."
       },
       {
-        "src": "/media/rama/forest.jpg",
-        "alt": "Dense sal forest floor with large tree trunks and dappled light."
+        "src": "/media/rama/still-dialogue.jpg",
+        "alt": "A conversation in the village square: a crowned, armoured elder speaks and the dialogue box offers three replies, with villagers around."
       }
     ]
   },
   "relighting": {
-    "videos": [],
+    "videos": [
+      {
+        "src": "/media/relighting/relighting-hero.mp4",
+        "poster": "/media/relighting/relighting-hero.jpg",
+        "caption": "The relighting viewer on the demo lab scene: baked appearance on the left, relit result on the right. The camera orbits, a warm sun is swept across the scene, then the right pane shows intrinsic albedo, baked irradiance and surface normals.",
+        "seconds": 12
+      }
+    ],
     "stills": [
       {
-        "src": "/media/relighting/viewer-split.jpg",
-        "alt": "Split-view WebGL relighting viewer showing the baked appearance of a 3D Gaussian splat lab instrument on the left and the relit result on the right, with the control panel at right."
+        "src": "/media/relighting/relighting-still-1.jpg",
+        "alt": "Split-view viewer on the demo lab scene, a mobile equipment cart in a blurry room. Baked appearance on the left, relit result on the right, with the control panel at far right."
+      },
+      {
+        "src": "/media/relighting/relighting-still-2.jpg",
+        "alt": "The same scene with the right pane showing intrinsic albedo, the surface colour with the baked lighting removed, next to the baked view."
+      },
+      {
+        "src": "/media/relighting/relighting-still-3.jpg",
+        "alt": "The same scene with the right pane showing surface normals as a colour map, next to the baked view."
       }
     ]
   },
@@ -161,6 +183,94 @@
       {
         "src": "/media/fielder-intercept/still-caught.jpg",
         "alt": "Top-down matplotlib field plot with the boundary circle, nine fielders in blue, a red ball and field-set buttons."
+      }
+    ]
+  },
+  "content-studio": {
+    "videos": [
+      {
+        "src": "/media/content-studio/dashboard-walkthrough-mock.mp4",
+        "poster": "/media/content-studio/dashboard-walkthrough-mock.jpg",
+        "caption": "Walkthrough of the Content Studio dashboard in mock mode with sample data: the projects list, then a helicopter explainer project with its approval gates, research sources and quality report.",
+        "seconds": 23
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/content-studio/dashboard-approval-gates.jpg",
+        "alt": "Dashboard pipeline view listing every production stage with its review state; Research and Script are done and Storyboard needs review, with a Mark reviewed button. A MOCK DATA banner is visible."
+      },
+      {
+        "src": "/media/content-studio/dashboard-research-sources.jpg",
+        "alt": "Dashboard research tab showing the core concept, 11 sources and 46 facts, with a sources table listing kind, reliability, link check and access date. A MOCK DATA banner is visible."
+      },
+      {
+        "src": "/media/content-studio/dashboard-quality-report.jpg",
+        "alt": "Dashboard quality control report from mock data showing 0 critical, 2 warnings, 31 passed and 1 skipped (34 checks), with an all-checks list of measured and expected values. A MOCK DATA banner is visible."
+      }
+    ]
+  },
+  "evomorph": {
+    "videos": [
+      {
+        "src": "/media/evomorph/evolution.mp4",
+        "poster": "/media/evomorph/evolution.jpg",
+        "caption": "The champion of one MAP-Elites run (condition D, seed 2) at each generation where it changed, walking on flat ground in MuJoCo, re-simulated from the saved genomes. It is one run chosen because its champion changed four times, not the best of the experiment.",
+        "seconds": 13
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/evomorph/results_main.jpg",
+        "alt": "Two scatter plots of fitness on training terrain against fitness on held-out terrain, one point per seed for the four conditions. Nearly all points sit on or below the line where the two are equal, and the morphology-only points are highest."
+      },
+      {
+        "src": "/media/evomorph/results_fitness_vs_simulations.jpg",
+        "alt": "Best training fitness against simulations used for the four conditions. Morphology-only starts near 0.6 because it uses the hand-designed gait, while the others start near zero."
+      },
+      {
+        "src": "/media/evomorph/elites_grid.jpg",
+        "alt": "Nine creatures from one MAP-Elites archive in a three by three grid, each labelled with body plan, gait, frequency, fitness, speed and efficiency. Several are weak or tipped over on purpose."
+      },
+      {
+        "src": "/media/evomorph/still_morphology_s1.jpg",
+        "alt": "Champion of the best morphology-only run, a six-legged walker with round feet."
+      },
+      {
+        "src": "/media/evomorph/still_joint_s1.jpg",
+        "alt": "Best joint-evolution champion, a six-legged metachronal walker."
+      },
+      {
+        "src": "/media/evomorph/still_joint_me_s2.jpg",
+        "alt": "Best joint MAP-Elites champion, a six-legged walker."
+      },
+      {
+        "src": "/media/evomorph/still_controller_s3.jpg",
+        "alt": "Best controller-only champion on the fixed reference quadruped body."
+      }
+    ]
+  },
+  "lumina": {
+    "videos": [
+      {
+        "src": "/media/lumina/lumina-demo.mp4",
+        "poster": "/media/lumina/lumina-demo.jpg",
+        "caption": "Compare view on a synthetic test clip: the left half of the ball uses a fixed studio light, the right half uses Lumina's estimate. First a camera pan over a hilltop, then a still camera while the environment turns and the light changes. The picture is a rendered panorama, not a real room.",
+        "seconds": 13
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/lumina/still-pan.jpg",
+        "alt": "Compare view during the pan clip: a ball over a hilltop scene, the left half lit by a fixed studio light and the right half by Lumina's estimate."
+      },
+      {
+        "src": "/media/lumina/still-rotate-a.jpg",
+        "alt": "Compare view with the sun behind the ball: the Lumina half has gone dark while the fixed-light half stays neutral."
+      },
+      {
+        "src": "/media/lumina/still-rotate-b.jpg",
+        "alt": "Compare view with the light on the camera side: the Lumina half is bright and warm while the fixed-light half stays neutral."
       }
     ]
   }
