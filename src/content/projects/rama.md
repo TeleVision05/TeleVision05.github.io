@@ -17,7 +17,7 @@ order: 2
 
 RAMA is a vertical slice, a small finished piece of a larger game, set in ancient India and drawn from the Valmiki Ramayana. You explore a 768 by 768 metre valley with a village, a river that falls over a cliff, shrines, forest and ruins. The story is told across the Five Kandas, the books of the epic, alongside three village quests. There are 18 scheduled characters (12 villagers and 6 companions from the Ramayana) and 10 landmarks to discover. It runs on macOS in Godot 4.7.2.
 
-As of 2026-11-13 it is a release candidate. A macOS build is attached to a draft release that I have not published yet, so it is not on the releases page today. The clip and stills below were rendered off screen from the current code, with no window and no sound.
+As of 2026-11-14 it is a release candidate. A macOS build and a gameplay video are on the [v0.1.0-rc1 release](https://github.com/TeleVision05/RAMA/releases/tag/v0.1.0-rc1). The clip and stills below were rendered off screen from the current code, with no window and no sound.
 
 ## How it works
 
@@ -39,5 +39,4 @@ As of 2026-11-13 it is a release candidate. A macOS build is attached to a draft
 - As of 2026-11-13 the village costs between 1,813 and 2,040 draw calls at the High setting with a distance cut that hides far villagers and drops their shadows, against 2,518 to 2,788 without it. Those counts were taken on a loaded machine, but draw counts do not depend on load. Enemies have no distance cut yet, and characters still need a cheaper mesh past a set range.
 - The macOS build is universal, but I have only run the Apple Silicon half. It is ad-hoc signed and not notarized, so macOS asks you to right-click and choose Open.
 - 26 scripts are still over 500 lines. So far I have split three large files behind golden-file tests.
-- As of 2026-11-13, the test gate, the character models and the fixes are in an open pull request and are not merged into main yet.
 - Building collision uses axis-aligned boxes, so a rotated hut blocks more ground than it occupies.
