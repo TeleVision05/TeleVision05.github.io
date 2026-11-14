@@ -40,7 +40,7 @@ One command, `balltracker demo`, simulates a 134 km/h delivery, renders it as a 
 - Trajectory fitting is split at the bounce. A gravity model, with optional drag, is fitted separately before and after the bounce.
 - Metrics come from the fitted path in pitch coordinates, so they do not depend on where the camera sat.
 - A delivery simulator renders test video, so the whole pipeline is tested without real footage. `balltracker benchmark` runs it over many simulated deliveries and writes an accuracy report.
-- As of 2026-11-13, pytest collects 159 tests in the analytics package and 124 in the BallTrace backend, and the Android app has 13 unit tests. GitHub Actions CI runs these, lint and the BallTrace frontend tests and build on every pull request and push to main. All six CI jobs passed on the open pull request.
+- As of 2026-11-13, pytest collects 159 tests in the analytics package and 124 in the BallTrace backend, and the Android app has 13 unit tests. GitHub Actions CI runs these, lint and the BallTrace frontend tests and build on every pull request and push to main. As of 2026-11-14 this work is merged into main, and all six CI jobs passed there.
 
 ## What's next
 
@@ -49,5 +49,4 @@ One command, `balltracker demo`, simulates a 134 km/h delivery, renders it as a 
 - Swing is not estimated yet. It always reads 0 degrees.
 - It does not work on real footage yet. As of 2026-11-13, 26 runs on the only two real clips I have (24 fps stock nets footage) gave no believable speed or bounce. No phone capture from the Android app has been analysed yet.
 - Next I need to record at least 5 deliveries with the Android app, label at least 5 real deliveries with radar speed and a measured bounce marker, and publish measured error bands.
-- As of 2026-11-13, this work is in an open pull request on the repo and is not merged into main yet. I merge it myself after a last look.
 - I also need to decide whether BallTrace feeds the physics fit or moves to its own repo, and split the one Android file still over 500 lines.

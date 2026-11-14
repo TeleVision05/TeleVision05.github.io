@@ -193,6 +193,13 @@
         "poster": "/media/content-studio/dashboard-walkthrough-mock.jpg",
         "caption": "Walkthrough of the Content Studio dashboard in mock mode with sample data: the projects list, then a helicopter explainer project with its approval gates, research sources and quality report.",
         "seconds": 23
+      },
+      {
+        "src": "/media/content-studio/helicopter-tail-rotor.mp4",
+        "poster": "/media/content-studio/helicopter-tail-rotor.jpg",
+        "caption": "The approved helicopter example, rendered by the pipeline: a 13 second vertical explainer on why a pilot cuts power when the tail rotor fails, with synthesised narration and timed captions. Unmute for sound.",
+        "seconds": 13,
+        "portrait": true
       }
     ],
     "stills": [
