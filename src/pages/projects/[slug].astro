@@ -100,7 +100,7 @@ const showRepo = d.repo && !d.repoPrivate;
     {media.videos.length > 0 && (
       <section class="videos" aria-label="Recordings">
         {media.videos.map((v) => (
-          <figure>
+          <figure class:list={[{ portrait: v.portrait }]}>
             <video src={v.src} poster={v.poster} controls muted playsinline preload="metadata" />
             {v.caption && <figcaption class="muted">{v.caption}</figcaption>}
           </figure>
@@ -223,6 +223,11 @@ const showRepo = d.repo && !d.repoPrivate;
   }
   figure {
     margin: 0;
+  }
+  .videos figure.portrait {
+    width: 100%;
+    max-width: 20rem;
+    justify-self: center;
   }
   video,
   .gallery img {

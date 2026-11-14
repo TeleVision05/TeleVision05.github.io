@@ -1,7 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type Video = { src: string; poster?: string; caption?: string; seconds?: number };
+/** `portrait` marks a vertical (9:16) clip so the page caps its width instead of filling the column. */
+export type Video = {
+  src: string;
+  poster?: string;
+  caption?: string;
+  seconds?: number;
+  portrait?: boolean;
+};
 export type Still = { src: string; alt: string };
 export type ProjectMedia = { videos: Video[]; stills: Still[] };
 
