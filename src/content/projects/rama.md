@@ -17,6 +17,8 @@ order: 2
 
 RAMA is a vertical slice, a small finished piece of a larger game, set in ancient India and drawn from the Valmiki Ramayana. You explore a 768 by 768 metre valley with a village, a river that falls over a cliff, shrines, forest and ruins. The story is told across the Five Kandas, the books of the epic, alongside three village quests. There are 18 scheduled characters (12 villagers and 6 companions from the Ramayana) and 10 landmarks to discover. It runs on macOS in Godot 4.7.2.
 
+As of 2026-11-13 it is a release candidate. A macOS build is attached to a draft release that I have not published yet, so it is not on the releases page today. The clip and stills below were rendered off screen from the current code, with no window and no sound.
+
 ## How it works
 
 - Textures, sound effects, ambience and music are synthesised in Python with NumPy.
@@ -25,14 +27,17 @@ RAMA is a vertical slice, a small finished piece of a larger game, set in ancien
 - The world is hand-composed rather than pure noise. The river descends about 45 metres across the map, so there is no flat sea level.
 - The heightfield, a grid of ground heights, is baked on first launch in about 10 seconds and cached on disk.
 - Combat has a hold-to-draw bow that gets stronger the longer you hold, a three-hit sword combo, a dodge roll you cannot be hit during, and a parry with a 0.35 second window. Five celestial arrows, the Divya Astras, are unlocked through the story.
-- A 13-suite test gate drives the game and checks loading, terrain, combat, quests, saves, memory leaks, frame rate and the UI. It runs quietly: 9 suites run headless, meaning with no renderer, and 4 render off screen, so no window opens, nothing takes focus and no sound plays. Every suite runs at a fixed 60 frames per second, so a busy machine slows a run down but does not change its result.
-- As of 2026-11-13, the most recent recorded full pass is from 2026-11-05, when 12 test suites and a UI check passed. That pass used an older version of the gate and came before the character models were added, so it does not cover the current build.
+- A quiet test gate runs 20 suites that drive the game and check loading, terrain, combat, quests, saves, memory leaks, frame rate and the UI. Four of them need a renderer and draw off screen, so no window opens, nothing takes focus and no sound plays. Every suite runs at a fixed 60 frames per second, so a busy machine slows a run down but does not change its result.
+- As of 2026-11-13, all 20 suites passed on the last full run. The frame times from that run are CPU times on a laptop that was in use (the GPU column reads 0 off screen), so they are indicative: a mean of 41 fps over six legs of the map, 38 fps on the worst leg and 44 fps in the village, against a gate of 20 fps.
+- An animation bug put the skirted villager's legs across the sky in my first recording. The animation clips are keyed for a metre-scale skeleton and the model is centimetre-scale. It is fixed at its cause and covered by a test, and the media here were re-recorded after the fix.
+- CI runs the headless suites and the linter on every push.
 
 ## What's next
 
-- As of 2026-11-13, the repo has no recorded full run of the new quiet test runner yet. Under its off-screen renderer the GPU timing column reads 0.00 ms, which is a known gap.
-- The 3D vegetation has not been rendered and checked by eye.
-- Village draw calls are high. As of 2026-11-13 the roadmap records about 900 in the village, about 450 of them from the 12 villagers and visible enemies. Those figures were taken on a heavily loaded machine, so they are rough. Characters need a distance level of detail, a cheaper mesh past a set range.
-- Remaining roadmap items are rendering and atmosphere, finishing characters and creatures, and more content.
-- As of 2026-11-13, the quiet test gate and the character models are on a branch that is not merged into main yet.
+- The 3D leaves, grass and petals are built, but I have not inspected close-up renders of them. The test gate checks loading and budgets, not how a leaf looks edge-on.
+- I still owe a frame-rate run on a quiet machine. The figures above came from a laptop under load.
+- As of 2026-11-13 the village costs between 1,813 and 2,040 draw calls at the High setting with a distance cut that hides far villagers and drops their shadows, against 2,518 to 2,788 without it. Those counts were taken on a loaded machine, but draw counts do not depend on load. Enemies have no distance cut yet, and characters still need a cheaper mesh past a set range.
+- The macOS build is universal, but I have only run the Apple Silicon half. It is ad-hoc signed and not notarized, so macOS asks you to right-click and choose Open.
+- 26 scripts are still over 500 lines. So far I have split three large files behind golden-file tests.
+- As of 2026-11-13, the test gate, the character models and the fixes are in an open pull request and are not merged into main yet.
 - Building collision uses axis-aligned boxes, so a rotated hut blocks more ground than it occupies.
