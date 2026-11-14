@@ -191,8 +191,8 @@
       {
         "src": "/media/content-studio/dashboard-walkthrough-mock.mp4",
         "poster": "/media/content-studio/dashboard-walkthrough-mock.jpg",
-        "caption": "Walkthrough of the Content Studio dashboard in mock mode with sample data: the projects list, then a helicopter explainer project with its approval gates, research sources, quality report and the storyboard live preview playing.",
-        "seconds": 34
+        "caption": "Walkthrough of the Content Studio dashboard in mock mode with sample data: the projects list, then a helicopter explainer project with its approval gates, research sources and quality report.",
+        "seconds": 23
       }
     ],
     "stills": [

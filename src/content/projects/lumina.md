@@ -15,7 +15,7 @@ order: 7
 
 ## What it does
 
-Lumina reads the live camera feed, estimates the lighting of the real room, and lights a virtual 3D object with it. The object's shading, colour cast and shadow follow the room. Lighting is stored as spherical harmonics (nine numbers per colour channel that describe light arriving from every direction).
+Lumina reads the live camera feed, estimates the room's lighting, and lights a virtual 3D object with it, so the object's shading, colour cast and shadow follow the room. It works as a live demo, but it has only been tested on synthetic panoramas, and the model's lighting estimate is weak and varies little. Lighting is stored as spherical harmonics (nine numbers per colour channel that describe light arriving from every direction).
 
 The live app is embedded above and runs entirely in your browser. Camera frames stay on your device, and a test fails if the app makes any request to another origin. As of 2026-11-14 I have tested it only in headless Chromium with a fake camera, never a real webcam. The shipped model is the step-29,000 checkpoint of a training run, and its results are weaker than I would like, as described below.
 
@@ -31,7 +31,7 @@ The live app is embedded above and runs entirely in your browser. Camera frames 
 - As of 2026-11-14, on the 103 held-out test HDRIs (1,545 synthetic camera crops), the model beats three simple baselines on average error, with one exception: on scale-invariant error it is not clearly better than the average-colour baseline. Its colour error is 5.5 degrees against 8.7 for the image's average colour, and its light-direction error on directional scenes is 30.1 degrees against 53.1 for always guessing the training average. Its sRGB error is 37.1 levels (out of 255) against 99.7 for the training average. Ranges and all baselines are in the repo's evaluation file.
 - On the 48 out-of-distribution ambientCG HDRIs it also beats every baseline on every metric.
 - A truth test plays a clip with known lighting as the fake camera in the production build. As the environment turns, the estimated light direction follows the true one (agreement 0.99 in ten runs, against 0.03 to 0.07 for a reversed sweep), and the displayed light matches the true bright side in 99 to 100 percent of samples.
-- As of 2026-11-14, with the shipped model on an M2 Max in headless Chromium, network inference took 4.1 to 4.4 ms median on WebAssembly and 5.5 to 7.4 ms on WebGPU, and the frame interval was 16.7 ms median.
+- As of 2026-11-14, with the shipped model on an M2 Max in headless Chromium, network inference took 4.1 to 4.4 ms median on WebAssembly and 5.5 to 7.4 ms on WebGPU, and the frame interval was 16.7 ms median. That was on a busy laptop (load average about 8) with software WebGL for the WebAssembly runs, so other machines and real GPUs will differ.
 
 ## What's next
 

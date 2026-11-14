@@ -6,17 +6,24 @@ interface Props {
   title: string;
   kind: 'play' | 'live';
   poster?: string;
+  camera?: boolean;
 }
 
-const { src, title, kind, poster } = Astro.props;
+const { src, title, kind, poster, camera = false } = Astro.props;
 const label = kind === 'play' ? `Start ${title}` : `Load ${title}`;
 const note =
   kind === 'play'
     ? 'Runs fully in your browser. Desktop with a keyboard works best.'
-    : 'The live app, embedded. Some features need an account.';
+    : 'The live app, embedded.';
 ---
 
-<figure class="embed" data-embed data-src={src} data-title={title}>
+<figure
+  class="embed"
+  data-embed
+  data-src={src}
+  data-title={title}
+  data-camera={camera ? 'true' : undefined}
+>
   <div class="frame">
     {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
     <button class="btn btn-primary start" type="button">
@@ -45,8 +52,9 @@ const note =
       const iframe = document.createElement('iframe');
       iframe.src = fig.dataset.src!;
       iframe.title = fig.dataset.title!;
-      // camera lets a future webcam demo read the viewer's camera. No page embeds one yet.
-      iframe.allow = 'fullscreen; gamepad; autoplay; camera';
+      // Camera access is granted only to an embed that asks for it (Lumina's webcam demo).
+      iframe.allow =
+        'fullscreen; gamepad; autoplay' + (fig.dataset.camera === 'true' ? '; camera' : '');
       iframe.setAttribute('allowfullscreen', '');
       frame.replaceChildren(iframe);
       iframe.focus();
