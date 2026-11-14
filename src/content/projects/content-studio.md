@@ -17,7 +17,7 @@ order: 5
 
 Content Studio produces short vertical engineering and science explainer videos. Every video is 20 seconds at most, with a hook of 7 words or fewer spoken in the first 3.5 seconds. A project moves from topic to research, script, storyboard, voiceover, captions, audio mix, render, quality checks, approval and export. Claude can draft the research, script and storyboard, but a person signs each one off. Nothing is uploaded automatically.
 
-The vertical clip below is the helicopter example as the pipeline renders it. I approved it on 2026-11-14 after lengthening its scenes to fit the narration. The walkthrough and stills come from the dashboard's mock mode, which runs on in-browser sample data. Nothing was saved and no approval was clicked. The data is a recorded copy of the helicopter example (a 14.7 second run), not the 13.4 second video the demo command renders today, and a MOCK DATA banner stays on screen. Its quality report shows 34 checks, the same count as a real run today.
+The vertical clip above is the helicopter example as the pipeline renders it. I approved it on 2026-11-14 after lengthening its scenes to fit the narration. The walkthrough and stills come from the dashboard's mock mode, which runs on in-browser sample data. Nothing was saved and no approval was clicked. The data is a recorded copy of the helicopter example (a 14.7 second run), not the 13.4 second video the demo command renders today, and a MOCK DATA banner stays on screen. Its quality report shows 34 checks, the same count as a real run today.
 
 ## How it works
 
