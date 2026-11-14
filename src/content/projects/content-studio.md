@@ -28,7 +28,7 @@ The vertical clip below is the helicopter example as the pipeline renders it. I 
 - As of 2026-11-13 there are 34 automated quality checks (22 critical, 11 warning, 1 info). They cover length, hook timing, plain language, text overlap, number integrity and the caption band, among others.
 - The API and dashboard listen on 127.0.0.1 only and have no login, by design. It is a tool for one person on one computer.
 - `pnpm demo` takes a fresh clone to a rendered video. As of 2026-11-13 a fresh-clone run took 3 min 20 s with warm caches.
-- As of 2026-11-14, lint, format check and typecheck passed, and 2,155 tests passed across 251 test files.
+- As of 2026-11-14, lint, format check and typecheck passed, and all 2,155 tests in 251 test files passed on my Mac. CI skips 40 of them and passed the other 2,115.
 - As of 2026-11-14 the two committed examples run 13.4 and 12.7 seconds. A third folder, `phone-memory-3d-opening-draft`, is a draft of the phone example with a 3D opening shot.
 
 ## What's next
