@@ -95,9 +95,11 @@ const FOOT_RELAX = 0.06;
 // ...and by less when that alone would swing a joint further than this (mm). Near a straight
 // knee a small foot turn moves the whole leg, so this keeps the relaxing foot from flicking.
 const RELAX_JUMP = 3;
-// No joint turns more than this per frame (radians, about 7 degrees). Where the reachable foot
+// No joint turns more than this per frame (radians, about 11 degrees). Where the reachable foot
 // angles split into separate ranges the solution jumps; this turns that jump into a short sweep.
-const MAX_JOINT_STEP = 0.12;
+const MAX_JOINT_STEP = 0.2;
+// A foot-angle change smaller than this (radians, about 0.06 degrees) counts as settled.
+const SETTLED_TURN = 1e-3;
 
 /**
  * Frame-to-frame solve for a moving target: search from the previous foot angle, eased toward
@@ -116,6 +118,11 @@ export function track(target: Vec, prev: Solution): Solution {
     relax /= 2;
     goal = solve(target, prev.footAngle + relax);
   }
+  // Settled: the foot is already on this target and the foot angle has stopped changing. Keep the
+  // previous pose; near a straight knee the search's tiny round-off would otherwise move the knee
+  // by ~1e-3 rad every frame and the animation would never go idle.
+  const onTarget = Math.hypot(prev.joints[3].x - target.x, prev.joints[3].y - target.y) < 1e-3;
+  if (onTarget && Math.abs(wrap(goal.footAngle - prev.footAngle)) < SETTLED_TURN) return prev;
   // The hip can turn either way round; knee and ankle stay inside their limits by moving
   // straight between two in-limit values, never wrapping through the folded pose.
   const delta = goal.angles.map((g, i) =>
