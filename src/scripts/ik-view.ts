@@ -75,8 +75,9 @@ export class IkView {
     this.canvas.width = Math.round(this.w * dpr);
     this.canvas.height = Math.round(this.h * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // The foot can reach the whole dashed circle, so centre the hip and fit the circle with a margin.
-    this.scale = Math.min(this.w, this.h) / (REACH * 2.12);
+    // The foot can reach the whole dashed circle, so centre the hip and fit the circle, leaving
+    // room for the 22 px foot axes and 15 px crosshair at full reach.
+    this.scale = Math.max(1e-3, Math.min(this.w, this.h) / 2 - 26) / REACH;
     this.origin = { x: this.w * 0.5, y: this.h * 0.5 };
     this.draw(true);
   }
@@ -102,7 +103,8 @@ export class IkView {
       y: this.target.y + (this.goal.y - this.target.y) * k,
     };
     const res = still ? solve(this.target) : track(this.target, this.pose);
-    const turning = Math.abs(res.footAngle - this.pose.footAngle) > 1e-4;
+    // Keep animating while the foot relaxes or the joints are still sweeping toward the goal.
+    const moving = res.angles.some((a, i) => Math.abs(a - this.pose.angles[i]) > 1e-4);
     this.pose = res;
     this.joints = res.joints;
     this.trail.push({ ...this.joints[3] });
@@ -110,7 +112,7 @@ export class IkView {
     this.draw(res.reached);
     this.readout(res.reached);
     const settled = Math.hypot(this.goal.x - this.target.x, this.goal.y - this.target.y) < 0.2;
-    if (!settled || turning || (!this.pointerActive && !still)) this.wake();
+    if (!settled || moving || (!this.pointerActive && !still)) this.wake();
   }
 
   private readout(reached: boolean) {

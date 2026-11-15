@@ -9,7 +9,12 @@
  * Units are millimetres in a frame whose origin is the hip joint, +x right, +y up.
  */
 export type Vec = { x: number; y: number };
-export type Solution = { joints: Vec[]; reached: boolean; footAngle: number };
+/**
+ * `angles` are hip (from +x), knee and ankle (each relative to the previous link), in radians.
+ * `footAngle` is the foot angle the solver is aiming for; while `track` is still blending toward
+ * it, the drawn foot (`joints[3]`) can lag behind the target for a few frames.
+ */
+export type Solution = { joints: Vec[]; angles: number[]; reached: boolean; footAngle: number };
 
 export const LINKS = [92, 78, 46]; // femur, tibia, foot (mm)
 const [L1, L2, L3] = LINKS;
@@ -24,8 +29,20 @@ const BISECT = 14;
 
 const wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
 
-/** Hip/knee/ankle chain for one foot angle, or null if the ankle is out of reach or over its limit. */
-function chain(target: Vec, phi: number): Vec[] | null {
+/** Forward kinematics: joint positions from hip, knee and ankle angles. */
+function fk([hip, knee, ankle]: number[]): Vec[] {
+  const out = [{ x: 0, y: 0 }];
+  let a = 0;
+  [hip, knee, ankle].forEach((rel, i) => {
+    a += rel;
+    const p = out[i];
+    out.push({ x: p.x + LINKS[i] * Math.cos(a), y: p.y + LINKS[i] * Math.sin(a) });
+  });
+  return out;
+}
+
+/** Hip/knee/ankle angles for one foot angle, or null if the ankle is out of reach or over its limit. */
+function chain(target: Vec, phi: number): number[] | null {
   const wx = target.x - L3 * Math.cos(phi);
   const wy = target.y - L3 * Math.sin(phi);
   const d = Math.hypot(wx, wy);
@@ -33,10 +50,8 @@ function chain(target: Vec, phi: number): Vec[] | null {
   const cosKnee = (d * d - L1 * L1 - L2 * L2) / (2 * L1 * L2);
   const knee = -Math.acos(Math.min(1, Math.max(-1, cosKnee))); // knee-up branch
   const hip = Math.atan2(wy, wx) - Math.atan2(L2 * Math.sin(knee), L1 + L2 * Math.cos(knee));
-  if (Math.abs(wrap(phi - hip - knee)) > ANKLE_LIMIT) return null;
-  const p1 = { x: L1 * Math.cos(hip), y: L1 * Math.sin(hip) };
-  const p2 = { x: p1.x + L2 * Math.cos(hip + knee), y: p1.y + L2 * Math.sin(hip + knee) };
-  return [{ x: 0, y: 0 }, p1, p2, { x: target.x, y: target.y }];
+  const ankle = wrap(phi - hip - knee);
+  return Math.abs(ankle) > ANKLE_LIMIT ? null : [hip, knee, ankle];
 }
 
 /** Walk outward from `start` on both sides and return the nearest feasible foot angle. */
@@ -62,20 +77,17 @@ function nearestFeasible(target: Vec, start: number): number | null {
 
 /**
  * Solve for a foot target, searching for the foot angle outward from `hint` (default: straight
- * down). For a moving target use `track`, which keeps the foot angle continuous between frames.
+ * down). For a moving target use `track`, which keeps the leg continuous between frames.
  */
 export function solve(target: Vec, hint: number = FOOT_DOWN): Solution {
   const phi = nearestFeasible(target, hint);
-  if (phi !== null) return { joints: chain(target, phi)!, reached: true, footAngle: phi };
+  if (phi !== null) {
+    const angles = chain(target, phi)!;
+    return { joints: fk(angles), angles, reached: true, footAngle: phi };
+  }
   // Out of reach: stretch the whole leg straight toward the target.
   const a = Math.atan2(target.y, target.x);
-  const u = { x: Math.cos(a), y: Math.sin(a) };
-  let s = 0;
-  const joints = [0, ...LINKS].map((l) => {
-    s += l;
-    return { x: u.x * s, y: u.y * s };
-  });
-  return { joints, reached: false, footAngle: a };
+  return { joints: fk([a, 0, 0]), angles: [a, 0, 0], reached: false, footAngle: a };
 }
 
 // Per frame, the foot angle relaxes back toward pointing down by at most this much (radians)...
@@ -83,25 +95,36 @@ const FOOT_RELAX = 0.06;
 // ...and by less when that alone would swing a joint further than this (mm). Near a straight
 // knee a small foot turn moves the whole leg, so this keeps the relaxing foot from flicking.
 const RELAX_JUMP = 3;
+// No joint turns more than this per frame (radians, about 7 degrees). Where the reachable foot
+// angles split into separate ranges the solution jumps; this turns that jump into a short sweep.
+const MAX_JOINT_STEP = 0.12;
 
 /**
  * Frame-to-frame solve for a moving target: search from the previous foot angle, eased toward
- * FOOT_DOWN, so the foot turns continuously instead of snapping between solutions.
+ * FOOT_DOWN, then move the joints toward that solution at a capped speed so the leg never snaps.
  */
 export function track(target: Vec, prev: Solution): Solution {
   let relax = Math.max(-FOOT_RELAX, Math.min(FOOT_RELAX, wrap(FOOT_DOWN - prev.footAngle)));
-  let res = solve(target, prev.footAngle + relax);
+  let goal = solve(target, prev.footAngle + relax);
   const jump = (s: Solution) =>
     Math.max(
       ...[1, 2].map((i) =>
         Math.hypot(s.joints[i].x - prev.joints[i].x, s.joints[i].y - prev.joints[i].y),
       ),
     );
-  for (let i = 0; i < 6 && relax !== 0 && jump(res) > RELAX_JUMP; i++) {
+  for (let i = 0; i < 6 && relax !== 0 && jump(goal) > RELAX_JUMP; i++) {
     relax /= 2;
-    res = solve(target, prev.footAngle + relax);
+    goal = solve(target, prev.footAngle + relax);
   }
-  return res;
+  // The hip can turn either way round; knee and ankle stay inside their limits by moving
+  // straight between two in-limit values, never wrapping through the folded pose.
+  const delta = goal.angles.map((g, i) =>
+    i === 0 ? wrap(g - prev.angles[0]) : g - prev.angles[i],
+  );
+  const k = Math.min(1, MAX_JOINT_STEP / Math.max(1e-9, ...delta.map(Math.abs)));
+  if (k === 1) return goal;
+  const angles = prev.angles.map((a, i) => a + delta[i] * k);
+  return { joints: fk(angles), angles, reached: goal.reached, footAngle: goal.footAngle };
 }
 
 /** Relative joint angles in degrees: hip from +x, then each joint relative to the previous link. */
