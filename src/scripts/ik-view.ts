@@ -1,4 +1,4 @@
-import { solve, jointAngles, restPose, LINKS, type Vec } from './ik';
+import { solve, track, jointAngles, restPose, LINKS, type Solution, type Vec } from './ik';
 import { reducedMotion } from './motion';
 
 const REACH = LINKS[0] + LINKS[1] + LINKS[2];
@@ -7,7 +7,8 @@ const css = (v: string) => getComputedStyle(document.documentElement).getPropert
 /** Renders the IK leg on a canvas and drives it from the pointer or an idle gait cycle. */
 export class IkView {
   private ctx: CanvasRenderingContext2D;
-  private joints: Vec[] = restPose();
+  private pose: Solution = restPose();
+  private joints: Vec[] = this.pose.joints;
   private target: Vec = { ...this.joints[3] };
   private goal: Vec = { ...this.target };
   private trail: Vec[] = [];
@@ -74,9 +75,9 @@ export class IkView {
     this.canvas.width = Math.round(this.w * dpr);
     this.canvas.height = Math.round(this.h * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // Size the leg to the plot: the hip sits upper-left, the gait path lands lower-right.
-    this.scale = Math.min(this.w / (REACH * 1.55), this.h / (REACH * 1.2));
-    this.origin = { x: this.w * 0.36, y: this.h * 0.24 };
+    // The foot can reach the whole dashed circle, so centre the hip and fit the circle with a margin.
+    this.scale = Math.min(this.w, this.h) / (REACH * 2.12);
+    this.origin = { x: this.w * 0.5, y: this.h * 0.5 };
     this.draw(true);
   }
 
@@ -100,14 +101,16 @@ export class IkView {
       x: this.target.x + (this.goal.x - this.target.x) * k,
       y: this.target.y + (this.goal.y - this.target.y) * k,
     };
-    const res = solve(this.target);
+    const res = still ? solve(this.target) : track(this.target, this.pose);
+    const turning = Math.abs(res.footAngle - this.pose.footAngle) > 1e-4;
+    this.pose = res;
     this.joints = res.joints;
     this.trail.push({ ...this.joints[3] });
     if (this.trail.length > 70) this.trail.shift();
     this.draw(res.reached);
     this.readout(res.reached);
     const settled = Math.hypot(this.goal.x - this.target.x, this.goal.y - this.target.y) < 0.2;
-    if (!settled || (!this.pointerActive && !still)) this.wake();
+    if (!settled || turning || (!this.pointerActive && !still)) this.wake();
   }
 
   private readout(reached: boolean) {
