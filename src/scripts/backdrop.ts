@@ -48,7 +48,7 @@ const vertex = /* glsl */ `
 
     float scanZ = mod(uTime * 7.0, uDepth) - uDepth + 8.0;
     vScan = exp(-pow((z - scanZ) * 0.55, 2.0));
-    vFade = smoothstep(-uDepth + 8.0, -uDepth + 52.0, z) * smoothstep(9.0, 2.0, z);
+    vFade = smoothstep(-uDepth + 8.0, -uDepth + 52.0, z) * (1.0 - smoothstep(2.0, 9.0, z));
     vHeight = h;
   }
 `;

@@ -23,7 +23,7 @@ The video above is the helicopter example as the pipeline renders it. The walkth
 
 - Visuals are drawn in code with Remotion, a library that renders video frames with React. Narration is synthesised locally with Kokoro, captions are timed with whisper.cpp, and FFmpeg does the render and export.
 - Everything is stored as files with a SQLite index. Drafting runs through my local Claude Code login with no API key.
-- Approval is gated. Every factual claim must trace to a research source whose link opened, and 34 automated quality checks must pass. They cover length, hook timing, plain language, text overlap, number integrity and the caption band.
+- Approval is gated. Every factual claim must trace to a research source whose link opened, and the critical automated quality checks must pass. They cover length, hook timing, plain language, text overlap, number integrity and the caption band.
 - `pnpm demo` takes a fresh clone to a rendered video in about 3 minutes with warm caches.
 - The API and dashboard listen on 127.0.0.1 only and have no login. It is a tool for one person on one computer.
 

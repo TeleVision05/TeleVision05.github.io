@@ -35,7 +35,7 @@ It has three parts: an analytics package with a Streamlit app and command line, 
 ## How it works
 
 - Calibration uses the stumps as known landmarks. You mark the stump bases, and a perspective-n-point solve gives the camera pose in pitch coordinates.
-- On the Android app you drag markers onto the stump bases while recording, so a phone clip skips the clicking step.
+- On the Android app you drag markers onto the stump bases while recording, so a phone clip skips the clicking step. No phone capture has been analysed yet.
 - Ball detection has colour, motion and hybrid modes. Hybrid can use MediaPipe pose to find the release point and a CSRT tracker to follow the ball.
 - The trajectory is fitted separately before and after the bounce, using a gravity model with optional drag.
 - Metrics come from the fitted path in pitch coordinates, so they do not depend on where the camera sat.

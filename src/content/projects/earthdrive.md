@@ -28,3 +28,4 @@ EarthDrive is a small sandbox for the idea of driving around a real-world map. A
 
 - Replace the placeholder boxes with real building footprints and road geometry.
 - Fix a re-centre bug that can hammer the public Overpass service.
+- Fix mouse look, which does nothing because the follow camera overrides it every frame.

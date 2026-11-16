@@ -19,7 +19,7 @@ This pipeline converts video of a real bowler into a clean animation clip for a 
 
 ## How it works
 
-- GVHMR recovers body pose from a single camera, run through a custom wrapper for Apple Silicon.
+- GVHMR recovers body pose from a single camera, run through a custom wrapper for Apple Silicon that is not in the repo yet.
 - A conversion step turns its output into a motion file of SMPL body parameters.
 - NumPy cleanup filters the motion and retimes slow-motion footage back to real time at 60 fps.
 - Helpers assemble a full take from a clean run-up cycle plus the captured delivery.
