@@ -19,14 +19,12 @@ OffBalance splits group expenses, records payments and shows who owes whom, per 
 
 ## How it works
 
-- Accounts use Supabase email and password auth, and the data lives in Postgres with row-level security (database rules that restrict which rows each user can see).
+- Accounts use Supabase email and password auth. Data lives in Postgres with row-level security, so each user only sees their own groups' rows.
 - An expense can be split equally, by exact amounts, by percentages, or as fixed amounts with the remainder split equally.
-- Balances are computed from the expense and payment history. A summary step works out a short list of payments that settles everyone in the group.
-- Members can be invited by email, sent through Resend, or by a shareable group link. A placeholder member is claimed when someone accepts an invite.
+- Balances are computed from the expense and payment history, and a summary step works out a short list of payments that settles everyone.
+- Members can be invited by email through Resend or by a shareable group link. A placeholder member is claimed when someone accepts an invite.
 - Admin controls include an admins-only option for adding expenses, soft-deleting groups and cancelling invites.
-- The balance logic has a manual assertion script in the repo rather than a test runner.
 
 ## What's next
 
-- Move the balance and split assertions into an automated test suite with CI.
-- Add a roadmap of known gaps; the README does not list any yet.
+- The balance and split logic is checked by a manual assertion script, not an automated test suite.
