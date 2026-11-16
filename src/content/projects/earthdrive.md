@@ -20,14 +20,12 @@ EarthDrive is a small sandbox for the idea of driving around a real-world map. A
 ## How it works
 
 - Map data comes from the public Overpass API, queried by a bounding box around the car.
-- A small geo module converts latitude and longitude into scene units, builds the query box, finds the centroid of each building outline and decides when the car has moved far enough to re-centre the map.
-- The vehicle physics module computes speed, heading and displacement per frame. It has no DOM or three.js dependency, so it can be tested alone.
-- The car is a box with four cylinders, followed by a chase camera.
-- The physics and geo modules are covered by offline `node --test` suites. The three.js-facing files are only syntax-checked.
-- There is no build step: the page loads three.js from a CDN through an import map.
+- A small geo module converts latitude and longitude into scene units, finds the centroid of each building outline and decides when the car has moved far enough to re-centre the map.
+- The vehicle physics module computes speed, heading and displacement per frame with no DOM or three.js dependency, so it can be tested alone.
+- The car is a box with four cylinders, followed by a chase camera. The page loads three.js from a CDN with no build step.
 
 ## What's next
 
-- Map rendering is placeholder boxes, so real building footprints and road geometry come first.
-- The roadmap lists a re-centre bug that can hammer the public Overpass service.
-- Mouse look does nothing, because the follow camera overrides OrbitControls every frame.
+- Replace the placeholder boxes with real building footprints and road geometry.
+- Fix a re-centre bug that can hammer the public Overpass service.
+- Fix mouse look, which does nothing because the follow camera overrides it every frame.

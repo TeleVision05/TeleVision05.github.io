@@ -23,10 +23,12 @@ You look at nine green dots on a fullscreen window, and then a red circle follow
 - The pupil centre is the centroid of the darkest region in the eye crop, found with OpenCV.
 - The pupil position is expressed as a ratio relative to the eye corners, which keeps it independent of where the face is in the frame.
 - Calibration collects those ratios at nine known screen points and fits a quadratic map to screen coordinates by least squares.
-- The geometry and calibration code depends only on numpy, so the tests run offline without a camera, window or the dlib model. A live vertical-gain control compensates for weaker vertical tracking.
+- A live vertical-gain control compensates for weaker vertical tracking.
+
+## Limits
+
+- Accuracy is a few degrees at best, and the head must stay still, because the map assumes a fixed head pose.
 
 ## What's next
 
-- Accuracy is a few degrees at best, and the head must stay still, because the map assumes a fixed head pose.
-- Vertical tracking is noticeably weaker than horizontal, which is why there is a live vertical-gain control.
-- Accounting for head movement, or replacing the geometry with a learned gaze model, are the obvious next experiments.
+- Account for head movement, or replace the geometry with a learned gaze model.

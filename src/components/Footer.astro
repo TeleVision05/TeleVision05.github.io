@@ -6,11 +6,8 @@ import { profile } from '../data/site';
 <footer class="site-footer" id="contact">
   <div class="wrap grid">
     <div>
-      <h2 class="display">Let's talk robots.</h2>
-      <p class="muted">
-        I'm looking for robotics, autonomy and simulation internships for summer 2027. The fastest
-        way to reach me is email.
-      </p>
+      <h2 class="display">Get in touch</h2>
+      <p>I'm looking for robotics, autonomy and simulation internships for summer 2027.</p>
       <a class="btn btn-primary" href={`mailto:${profile.email}`}>
         <Icon name="solar:letter-linear" aria-hidden="true" />
         Email me
@@ -34,9 +31,6 @@ import { profile } from '../data/site';
         </a>
       </li>
     </ul>
-  </div>
-  <div class="wrap fine muted">
-    <span>Built with Astro. Hosted on GitHub Pages.</span>
   </div>
 </footer>
 
@@ -87,10 +81,6 @@ import { profile } from '../data/site';
     width: 1.15rem;
     height: 1.15rem;
     flex: none;
-  }
-  .fine {
-    margin-top: 3rem;
-    font-size: 0.85rem;
   }
   @media (max-width: 720px) {
     .grid {

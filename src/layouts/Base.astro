@@ -38,6 +38,7 @@ const ogImage = image ? new URL(image, Astro.site).href : undefined;
     <meta name="theme-color" content="#13171d" media="(prefers-color-scheme: dark)" />
   </head>
   <body>
+    <canvas class="backdrop" aria-hidden="true"></canvas>
     <a class="skip" href="#main">
       Skip to content
     </a>
@@ -49,6 +50,13 @@ const ogImage = image ? new URL(image, Astro.site).href : undefined;
     <script>
       import { initSmoothScroll } from '../scripts/motion';
       initSmoothScroll();
+
+      // The 3D background loads after the page is idle so it never delays the first paint.
+      const canvas = document.querySelector<HTMLCanvasElement>('canvas.backdrop');
+      const loadBackdrop = () =>
+        import('../scripts/backdrop').then(({ startBackdrop }) => canvas && startBackdrop(canvas));
+      if ('requestIdleCallback' in window) requestIdleCallback(loadBackdrop, { timeout: 1500 });
+      else setTimeout(loadBackdrop, 300);
     </script>
   </body>
 </html>

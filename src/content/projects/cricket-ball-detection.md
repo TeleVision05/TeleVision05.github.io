@@ -19,16 +19,14 @@ This pipeline takes match video and ends with a trained model that finds the bal
 
 ## How it works
 
-- Frames are extracted from each video into a per-video folder.
-- Labelling is assisted: a YOLO model suggests boxes, and I either accept them automatically above a confidence threshold or review them in a matplotlib or tkinter tool.
+- Frames are extracted from each video.
+- Labelling is assisted. A YOLO model suggests boxes, and I either accept them above a confidence threshold or review them in a small labelling tool.
 - Augmentation uses an albumentations pipeline tuned for small, fast-moving objects, since a ball can be only a few pixels wide.
-- Training fine-tunes a YOLOv5n model through ultralytics on CPU. A fast variant subsamples to 100 training images at 416 px with no augmentation, which finishes in roughly 10 to 15 minutes.
-- Detection runs on images, videos or directories, applies a ball-size filter (20 to 200 px by default) and passes detections through a Kalman filter step.
-- All paths and hyperparameters live in one `config.yaml`. Twelve tests cover the utility module.
+- Training fine-tunes YOLOv5n through ultralytics on CPU. A fast variant uses 100 training images at 416 px and finishes in roughly 10 to 15 minutes.
+- Detection runs on images, videos or directories, filters by ball size and passes detections through a Kalman filter step.
+- All paths and hyperparameters live in one `config.yaml`.
 
 ## What's next
 
-- Only the utility module has tests. Detection, training, augmentation and labelling are checked by hand.
-- The Kalman step corrects one filter once per detection, so it does not yet associate detections across frames and is not real tracking.
-- The example workflow silently skips augmentation and detection because of a frame-path bug.
-- A fresh clone fails the installation check until the git-ignored data folders are created.
+- The Kalman step does not yet link detections across frames, so it is not real tracking.
+- The example workflow skips augmentation and detection because of a frame-path bug.
