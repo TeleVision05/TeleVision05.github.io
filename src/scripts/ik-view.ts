@@ -1,4 +1,4 @@
-import { solve, track, jointAngles, restPose, LINKS, type Solution, type Vec } from './ik';
+import { solve, track, restPose, LINKS, type Solution, type Vec } from './ik';
 import { reducedMotion } from './motion';
 
 const REACH = LINKS[0] + LINKS[1] + LINKS[2];
@@ -22,10 +22,7 @@ export class IkView {
   private w = 0;
   private h = 0;
 
-  constructor(
-    private canvas: HTMLCanvasElement,
-    private out: { angles: HTMLElement[]; xy: HTMLElement; state: HTMLElement },
-  ) {
+  constructor(private canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d')!;
     this.bind();
     this.resize();
@@ -110,23 +107,8 @@ export class IkView {
     this.trail.push({ ...this.joints[3] });
     if (this.trail.length > 70) this.trail.shift();
     this.draw(res.reached);
-    this.readout(res.reached);
     const settled = Math.hypot(this.goal.x - this.target.x, this.goal.y - this.target.y) < 0.2;
     if (!settled || moving || (!this.pointerActive && !still)) this.wake();
-  }
-
-  private readout(reached: boolean) {
-    jointAngles(this.joints).forEach((a, i) => {
-      if (this.out.angles[i]) this.out.angles[i].textContent = `${a.toFixed(1)}°`;
-    });
-    const f = this.joints[3];
-    this.out.xy.textContent = `${Math.round(f.x)}, ${Math.round(f.y)} mm`;
-    this.out.state.textContent = !reached
-      ? 'out of reach'
-      : this.pointerActive
-        ? 'tracking'
-        : 'gait cycle';
-    this.out.state.classList.toggle('warn', !reached);
   }
 
   private screen(p: Vec) {

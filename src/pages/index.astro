@@ -16,33 +16,7 @@ const groups = categoryOrder.map((cat) => ({
   rest: all.filter((p) => p.data.category === cat && !p.data.featured),
 }));
 
-const crabPlan = [
-  {
-    step: 'Bring-up',
-    detail: 'Pi 5 online, servo and camera checks, a clean repo.',
-    state: 'next',
-  },
-  {
-    step: 'My own walking code',
-    detail: 'Leg inverse kinematics, body pose and creep, trot and wave gaits.',
-    state: 'planned',
-  },
-  {
-    step: 'ROS 2',
-    detail: 'Servo, gait, camera and sonar nodes with a URDF model in RViz.',
-    state: 'planned',
-  },
-  {
-    step: 'Learned gait',
-    detail: 'A MuJoCo or Isaac Lab twin, an RL-trained gait, deployed back to the Pi.',
-    state: 'planned',
-  },
-  {
-    step: 'VR teleoperation',
-    detail: 'Steer the body pose from a Meta Quest with the camera feed in the headset.',
-    state: 'planned',
-  },
-];
+const crabPlan = ['Bring-up', 'My own walking code', 'ROS 2', 'Learned gait', 'VR teleoperation'];
 ---
 
 <Base>
@@ -52,8 +26,8 @@ const crabPlan = [
         Tarun Vadapalli
       </h1>
       <p class="lede" data-rise>
-        Robotics engineering student at UC Riverside. I build software that sees, moves and
-        simulates. Right now I'm teaching a four-legged crab robot to walk.
+        Robotics engineering student at UC Riverside. Right now I'm teaching a four-legged crab
+        robot to walk.
       </p>
       <div class="ctas" data-rise>
         <a class="btn btn-primary" href="#projects">
@@ -70,6 +44,36 @@ const crabPlan = [
     </div>
   </section>
 
+  <section id="about" class="about wrap" aria-labelledby="about-title">
+    <picture class="portrait">
+      <source srcset="/media/about/tarun.webp" type="image/webp" />
+      <img
+        src="/media/about/tarun.jpg"
+        alt="Tarun Vadapalli"
+        width="720"
+        height="720"
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+    <div class="about-text">
+      <h2 id="about-title" class="display">
+        About me
+      </h2>
+      <p>
+        I'm a robotics engineering student at UC Riverside, graduating in 2028. I like work where
+        software has to deal with the physical world: cameras that measure things, simulations that
+        have to obey physics, and a robot that has to walk on a real floor.
+      </p>
+      <p>
+        Most of what I know I learned by building. I've been working on a VR cricket game since
+        2021, and a lot of my projects still come back to cricket. At UCR I build VR experiences and
+        research 3D reconstruction at the XCITE IDEA Lab, and I'm a software engineer intern at
+        Hemut, a YC-backed trucking startup.
+      </p>
+    </div>
+  </section>
+
   <section id="now" class="now wrap" aria-labelledby="now-title">
     <div class="now-head">
       <h2 id="now-title" class="display">
@@ -82,12 +86,8 @@ const crabPlan = [
       </p>
     </div>
     <ol class="plan">
-      {crabPlan.map((s) => (
-        <li data-state={s.state}>
-          <span class="step">{s.step}</span>
-          <span class="muted">{s.detail}</span>
-          <span class="state">{s.state === 'next' ? 'Up next' : 'Planned'}</span>
-        </li>
+      {crabPlan.map((step, i) => (
+        <li data-state={i === 0 ? 'next' : 'planned'}>{step}</li>
       ))}
     </ol>
   </section>
@@ -96,19 +96,12 @@ const crabPlan = [
     <h2 id="projects-title" class="display">
       Projects
     </h2>
-    <p class="legend muted">
-      Colors follow the robot-axis convention:{' '}
-      <span class="key axis-z">blue for robotics and vision</span>,{' '}
-      <span class="key axis-x">red for simulation and games</span>,{' '}
-      <span class="key axis-y">green for apps and tools</span>.
-    </p>
     {groups.map((g) => (
       <section class:list={['group', `axis-${g.meta.axis}`]} aria-labelledby={`g-${g.cat}`}>
         <header class="group-head">
           <h3 id={`g-${g.cat}`} class="display">
             {g.meta.name}
           </h3>
-          <p class="muted">{g.meta.blurb}</p>
         </header>
         {g.featured.map((p) => (
           <ProjectRow project={p} size="feature" />
@@ -129,12 +122,11 @@ const crabPlan = [
     <ol class="timeline">
       {experience.map((e) => (
         <li>
-          <p class="when muted num">{e.when}</p>
+          <p class="when num">{e.when}</p>
           <div>
             <h3>
               {e.role}, <span class="org">{e.org}</span>
             </h3>
-            <p class="muted">{e.detail}</p>
             <ul>
               {e.points.map((pt) => (
                 <li>{pt}</li>
@@ -145,7 +137,7 @@ const crabPlan = [
       ))}
     </ol>
     <p class="edu">
-      <span class="muted num">{education.when}</span>
+      <span class="num">{education.when}</span>
       <span>
         <strong>{education.degree}</strong>, {education.school}
       </span>
@@ -225,8 +217,41 @@ const crabPlan = [
   }
 
   section > h2,
+  .about-text h2,
   .now-head h2 {
     font-size: clamp(2.4rem, 5.5vw, 4rem);
+    margin: 0 0 1rem;
+  }
+
+  .about {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(1.5rem, 5vw, 4.5rem);
+    align-items: center;
+    padding-block: 3rem 4rem;
+  }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--gutter);
+    right: var(--gutter);
+    border-top: 1.5px solid var(--ink);
+  }
+  .portrait img {
+    display: block;
+    width: 100%;
+    max-width: 22rem;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1.5px solid var(--ink);
+  }
+  .about-text p {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    max-width: 52ch;
     margin: 0 0 1rem;
   }
 
@@ -261,49 +286,27 @@ const crabPlan = [
   .plan li {
     counter-increment: step;
     display: grid;
-    grid-template-columns: 2rem minmax(0, 1fr) auto;
-    grid-template-areas: 'n title state' 'n detail detail';
+    grid-template-columns: 2rem minmax(0, 1fr);
     column-gap: 0.75rem;
+    align-items: baseline;
     padding: 0.9rem 0;
     border-bottom: 1px solid var(--rule);
+    font-size: 1.15rem;
+    font-weight: 600;
   }
   .plan li::before {
     content: counter(step);
-    grid-area: n;
     font-family: var(--display);
-    font-weight: 600;
     font-size: 1.3rem;
     color: var(--graphite);
     font-variant-numeric: tabular-nums;
   }
-  .plan .step {
-    grid-area: title;
-    font-weight: 600;
-  }
-  .plan .muted {
-    grid-area: detail;
-    font-size: 0.95rem;
-  }
-  .plan .state {
-    grid-area: state;
-    font-size: 0.8rem;
-    color: var(--graphite);
-  }
-  .plan li[data-state='next']::before,
-  .plan li[data-state='next'] .state {
+  .plan li[data-state='next']::before {
     color: var(--z);
   }
 
   .projects {
     padding-top: 4rem;
-  }
-  .legend {
-    max-width: 60ch;
-    margin: 0 0 2rem;
-  }
-  .key {
-    color: var(--axis);
-    font-weight: 500;
   }
   .group {
     margin-top: 3.5rem;
@@ -319,10 +322,6 @@ const crabPlan = [
   .group-head h3 {
     font-size: clamp(1.7rem, 3.2vw, 2.4rem);
     margin: 0;
-  }
-  .group-head p {
-    margin: 0;
-    max-width: 52ch;
   }
   .compact-grid {
     display: grid;
@@ -346,8 +345,8 @@ const crabPlan = [
     border-top: 1px solid var(--rule);
   }
   .when {
-    margin: 0.2rem 0 0;
-    font-size: 0.95rem;
+    margin: 0.1rem 0 0;
+    color: var(--graphite);
   }
   .timeline h3 {
     font-size: 1.2rem;
@@ -357,8 +356,8 @@ const crabPlan = [
   .org {
     font-weight: 400;
   }
-  .timeline p {
-    margin: 0.15rem 0 0.5rem;
+  .timeline h3 + ul {
+    margin-top: 0.5rem;
   }
   .timeline ul {
     list-style: disc;
@@ -376,6 +375,7 @@ const crabPlan = [
 
   @media (max-width: 860px) {
     .hero,
+    .about,
     .now {
       grid-template-columns: 1fr;
     }

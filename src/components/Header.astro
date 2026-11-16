@@ -11,6 +11,7 @@ const link = (hash: string) => (onHome ? hash : `/${hash}`);
       {profile.name}
     </a>
     <nav aria-label="Main">
+      <a href={link('#about')}>About</a>
       <a href={link('#projects')}>Projects</a>
       <a href={link('#now')}>Now</a>
       <a href={link('#experience')}>Experience</a>
@@ -70,6 +71,7 @@ const link = (hash: string) => (onHome ? hash : `/${hash}`);
     height: 1.05rem;
   }
   @media (max-width: 560px) {
+    nav a[href$='#about'],
     nav a[href$='#now'],
     nav a[href$='#experience'] {
       display: none;

@@ -69,6 +69,16 @@ a {
   border-radius: 2px;
 }
 
+/* Fixed 3D background (src/scripts/backdrop.ts), behind everything. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .wrap {
   max-width: var(--max);
   margin-inline: auto;

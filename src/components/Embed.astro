@@ -11,10 +11,6 @@ interface Props {
 
 const { src, title, kind, poster, camera = false } = Astro.props;
 const label = kind === 'play' ? `Start ${title}` : `Load ${title}`;
-const note =
-  kind === 'play'
-    ? 'Runs fully in your browser. Desktop with a keyboard works best.'
-    : 'The live app, embedded.';
 ---
 
 <figure
@@ -34,8 +30,7 @@ const note =
       {label}
     </button>
   </div>
-  <figcaption class="muted">
-    <span>{note}</span>
+  <figcaption>
     <a href={src} target="_blank" rel="noopener">
       Open in a new tab
       <Icon name="solar:arrow-right-up-linear" aria-hidden="true" />
@@ -104,10 +99,8 @@ const note =
   figcaption {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem 1rem;
+    justify-content: flex-end;
     margin-top: 0.6rem;
-    font-size: 0.9rem;
   }
   figcaption a {
     display: inline-flex;
