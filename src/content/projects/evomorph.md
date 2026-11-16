@@ -17,7 +17,7 @@ order: 8
 
 EVOMORPH breeds simulated walking creatures. Each creature has a genome for its body and one for its gait, evolution changes them, and the MuJoCo physics engine decides whether the result can walk. There is no physical robot. Everything runs on a laptop CPU.
 
-The question: does evolving the body and the controller together give more robust and more varied walking than evolving only the controller on a fixed body? The answer from my first full experiment is no. I ran four conditions with 5 seeds each (20 runs). Joint evolution did not beat the alternatives on robustness (fitness on held-out terrain) or on diversity, and no primary comparison was significant after correction.
+The question: does evolving the body and the controller together give more robust and more varied walking than evolving only the controller on a fixed body? My first full experiment did not show that it does, and the question is still open. I ran four conditions with 5 seeds each (20 runs). Joint evolution did not beat the alternatives on robustness (fitness on held-out terrain) or on diversity, and no primary comparison was significant after correction.
 
 The best held-out champions came from morphology-only evolution (median fitness 0.327, against 0.078 for controller-only and 0.058 for joint). That condition started with a hand-designed gait, so it had a head start I have not controlled for. Each run evolved only 131 genomes over 6 to 9 generations, so this is a null result and says little about the idea itself.
 

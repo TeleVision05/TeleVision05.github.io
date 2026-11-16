@@ -26,7 +26,7 @@ It is a release candidate that runs on macOS in Godot 4.7.2. A build and a gamep
 - The human characters use CC0 base meshes from Quaternius and animation clips from Kay Lousberg, credited in the repo.
 - The world is hand-composed rather than pure noise. The river drops about 45 metres across the map.
 - Combat has a hold-to-draw bow, a three-hit sword combo, a dodge roll and a parry. Keys 1 to 5 pick the arrow: a free standard shaft or one of four celestial arrows, the Divya Astras, which cost Prana.
-- Automated suites drive the game headlessly to check loading, terrain, combat, quests, saves and frame rate. The frame rate averages 41 fps across the map and 44 fps in the village.
+- Automated suites drive the game headlessly to check loading, terrain, combat, quests, saves and frame rate. In a rough off-screen run on a busy laptop, CPU frame times averaged 41 fps across the map, well above the 20 fps floor. I still need a proper benchmark on a quiet machine.
 
 ## What's next
 

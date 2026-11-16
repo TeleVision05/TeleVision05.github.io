@@ -26,7 +26,7 @@ The live demo runs on a lab scene, a mobile equipment cart in a room (196,410 sp
 - Re-shading uses a Cook-Torrance BRDF with a GGX distribution and up to 8 directional, point or spot lights. Shadows are ray-marched through a density volume built from the splats.
 - The viewer is WebGL2 in plain ES modules, with a split view of the baked reference against the relit result, six debug views, four lighting presets and a model picker.
 - A NumPy CPU renderer is the reference the viewer is checked against. On the baked and normals views the mean difference is under 1 out of 255.
-- On an Apple M2 Max the demo scene loads in about 0.5 s and the viewer draws both panes in about 20 ms.
+- In a rough test on an Apple M2 Max the demo scene loads in about 0.5 s and the viewer draws both panes in about 20 ms.
 
 ## What's next
 
