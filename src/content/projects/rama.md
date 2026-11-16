@@ -17,7 +17,7 @@ order: 2
 
 RAMA is a vertical slice of a larger game, set in ancient India and drawn from the Valmiki Ramayana. You explore a 768 by 768 metre valley with a village, a river that falls over a cliff, shrines, forest and ruins. The story runs across the Five Kandas, the books of the epic, alongside three village quests. There are 18 characters and 10 landmarks to discover.
 
-It is a release candidate that runs on macOS in Godot 4.7.2. A build and a gameplay video are on the [v0.1.0-rc1 release](https://github.com/TeleVision05/RAMA/releases/tag/v0.1.0-rc1).
+It is a release candidate that runs on macOS in Godot 4.7.2. A build and a gameplay video are on the [v0.1.0-rc1 release](https://github.com/TeleVision05/RAMA/releases/tag/v0.1.0-rc1). The clip and screenshots on this page were rendered off screen from the current code, with no sound.
 
 ## How it works
 
